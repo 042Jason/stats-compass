@@ -1,0 +1,76 @@
+{
+  "_note": "시연에서 실제로 보여줄 두 시나리오만 검증합니다. expectSurveys/expectTables 는 '이건 반드시 나와야 한다'는 기준이고, 이 밖의 결과가 나오는 것 자체는 문제가 아닙니다. 통계표ID 는 KOSIS 실제 값입니다. expectTableOwner 는 기대 통계표가 속한 조사입니다. 정확한 tblId 가 아니어도 그 조사의 표가 결과에 있으면 적중으로 봅니다(조사 단위 판정).",
+  "scenarios": [
+    {
+      "key": "dj-35-male",
+      "title": "35세 · 남성 · 대전 — 또래 월급과 주거 부채",
+      "query": "대전 사는 35살 남잔데, 또래들 월급 얼마나 받는지, 집 살 때 빚은 얼마나 지는지 궁금해요",
+      "slots": {
+        "age": 35,
+        "sexText": "남자",
+        "regionText": "대전"
+      },
+      "expectStages": [
+        "employment",
+        "marriage",
+        "housing"
+      ],
+      "_dropped": "지역별고용조사(DT_1ES3A03_A02S)는 기대값에서 뺐습니다. 그 표는 취업자 '수'라 '월급 얼마'라는 질문과 어긋납니다. 실제 소득 데이터를 가진 일자리행정통계가 정답이므로, 검색기가 아니라 기대값이 틀렸던 경우입니다.",
+      "expectSurveys": [
+        "일자리행정통계",
+        "가계금융복지조사",
+        "주택소유통계"
+      ],
+      "expectTables": [
+        "DT_1EP_2010",
+        "DT_1HDAAA01",
+        "DT_1OH0518"
+      ],
+      "expectCautionWith": [
+        "가계동향조사",
+        "경제활동인구조사"
+      ],
+      "expectTableOwner": {
+        "DT_1EP_2010": "일자리행정통계",
+        "DT_1HDAAA01": "가계금융복지조사",
+        "DT_1OH0518": "주택소유통계"
+      }
+    },
+    {
+      "key": "retire-50s-fund",
+      "title": "50대 — 은퇴 후 필요자금",
+      "query": "50대인데 은퇴하고 나면 노후에 돈이 얼마나 필요할까요? 연금으로 충당이 되나요?",
+      "slots": {
+        "age": 55,
+        "sexText": null,
+        "regionText": null
+      },
+      "expectStages": [
+        "midlife",
+        "retirement"
+      ],
+      "expectSurveys": [
+        "연금통계",
+        "가계금융복지조사",
+        "사회조사",
+        "국민이전계정"
+      ],
+      "expectTables": [
+        "DT_1PEN_002",
+        "DT_1HDLD04",
+        "DT_1SSWE131R",
+        "DT_1NTA2003"
+      ],
+      "expectCautionWith": [
+        "가계동향조사",
+        "국민시간이전계정"
+      ],
+      "expectTableOwner": {
+        "DT_1PEN_002": "연금통계",
+        "DT_1HDLD04": "가계금융복지조사",
+        "DT_1SSWE131R": "사회조사",
+        "DT_1NTA2003": "국민이전계정"
+      }
+    }
+  ]
+}

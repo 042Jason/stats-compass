@@ -1,0 +1,168 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ---------------------------------------------------------------
+ * 통계나침반 디자인 토큰
+ * - primary: 정부 표준 남색(#003876) 계열
+ * - 배경 화이트 + 회색 계조, 라이트 모드 전용
+ * --------------------------------------------------------------- */
+:root {
+  --background: #ffffff;
+  --foreground: #1a1f2b;
+
+  --card: #ffffff;
+  --card-foreground: #1a1f2b;
+
+  --popover: #ffffff;
+  --popover-foreground: #1a1f2b;
+
+  --primary: #003876;
+  --primary-foreground: #ffffff;
+  --primary-soft: #eef3fa;
+  --primary-hover: #002b5c;
+
+  --secondary: #f3f5f8;
+  --secondary-foreground: #1a1f2b;
+
+  --muted: #f3f5f8;
+  --muted-foreground: #5b6474;
+
+  --accent: #eef3fa;
+  --accent-foreground: #003876;
+
+  --destructive: #c62828;
+  --destructive-foreground: #ffffff;
+
+  --border: #e3e7ee;
+  --input: #d6dbe4;
+  --ring: #003876;
+
+  --radius: 0.625rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans:
+    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+  ::selection {
+    background: var(--primary-soft);
+    color: var(--primary);
+  }
+}
+
+@layer utilities {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* 마크다운 본문 (Deep Dive 아티클용) */
+.prose-gov {
+  @apply text-[15px] leading-7 text-foreground;
+}
+.prose-gov h2 {
+  @apply mt-10 mb-3 text-xl font-bold text-primary;
+}
+.prose-gov h3 {
+  @apply mt-8 mb-2 text-lg font-semibold;
+}
+.prose-gov p {
+  @apply my-4;
+}
+.prose-gov ul,
+.prose-gov ol {
+  @apply my-4 pl-6;
+}
+.prose-gov ul {
+  @apply list-disc;
+}
+.prose-gov ol {
+  @apply list-decimal;
+}
+.prose-gov li {
+  @apply my-1;
+}
+.prose-gov a {
+  @apply text-primary underline underline-offset-4;
+}
+.prose-gov blockquote {
+  @apply my-6 border-l-4 border-primary/40 bg-primary-soft px-4 py-3 text-muted-foreground;
+}
+.prose-gov code {
+  @apply rounded bg-muted px-1.5 py-0.5 text-[0.9em];
+}
+.prose-gov pre {
+  @apply my-4 overflow-x-auto rounded-lg bg-muted p-4 text-sm;
+}
+.prose-gov table {
+  @apply my-6 w-full border-collapse text-sm;
+}
+.prose-gov th,
+.prose-gov td {
+  @apply border border-border px-3 py-2 text-left;
+}
+.prose-gov th {
+  @apply bg-muted font-semibold;
+}
+.prose-gov hr {
+  @apply my-8 border-border;
+}

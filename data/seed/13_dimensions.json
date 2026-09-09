@@ -1,0 +1,266 @@
+{
+  "_note": "연령대·성별은 KOSIS 통계표의 흔한 분류값입니다. 통계표마다 구간이 달라 표 단위 연결은 하지 않고(분류 메타 미수집), 질의 슬롯을 해석하는 용도로 씁니다. stageForAge 가 '나이 → 생애단계' 규칙을 코드에서 데이터로 옮긴 부분입니다. 혼인상태는 가계금융복지조사 DT_1HDAAA07(가구주 혼인상태별 자산·부채·소득)처럼 실제 분류축으로 쓰이며, 값에 따라 결과가 크게 달라져 되묻기 대상이 됩니다.",
+  "ageBands": [
+    {
+      "key": "age-0-9",
+      "label": "0~9세",
+      "from": 0,
+      "to": 9,
+      "alt": [
+        "영유아",
+        "미취학",
+        "어린이"
+      ],
+      "stages": [
+        "birth",
+        "school"
+      ]
+    },
+    {
+      "key": "age-10-19",
+      "label": "10~19세",
+      "from": 10,
+      "to": 19,
+      "alt": [
+        "십대",
+        "청소년",
+        "학생"
+      ],
+      "stages": [
+        "school"
+      ]
+    },
+    {
+      "key": "age-20-29",
+      "label": "20~29세",
+      "from": 20,
+      "to": 29,
+      "alt": [
+        "이십대",
+        "20대"
+      ],
+      "stages": [
+        "youth",
+        "employment"
+      ]
+    },
+    {
+      "key": "age-30-39",
+      "label": "30~39세",
+      "from": 30,
+      "to": 39,
+      "alt": [
+        "삼십대",
+        "30대"
+      ],
+      "stages": [
+        "employment",
+        "marriage",
+        "housing"
+      ]
+    },
+    {
+      "key": "age-40-49",
+      "label": "40~49세",
+      "from": 40,
+      "to": 49,
+      "alt": [
+        "사십대",
+        "40대"
+      ],
+      "stages": [
+        "employment",
+        "midlife",
+        "housing"
+      ]
+    },
+    {
+      "key": "age-50-59",
+      "label": "50~59세",
+      "from": 50,
+      "to": 59,
+      "alt": [
+        "오십대",
+        "50대"
+      ],
+      "stages": [
+        "midlife",
+        "retirement"
+      ]
+    },
+    {
+      "key": "age-60-69",
+      "label": "60~69세",
+      "from": 60,
+      "to": 69,
+      "alt": [
+        "육십대",
+        "60대"
+      ],
+      "stages": [
+        "retirement",
+        "aging"
+      ]
+    },
+    {
+      "key": "age-70-79",
+      "label": "70~79세",
+      "from": 70,
+      "to": 79,
+      "alt": [
+        "칠십대",
+        "70대"
+      ],
+      "stages": [
+        "aging"
+      ]
+    },
+    {
+      "key": "age-80up",
+      "label": "80세 이상",
+      "from": 80,
+      "to": 120,
+      "alt": [
+        "팔십대",
+        "초고령"
+      ],
+      "stages": [
+        "aging"
+      ]
+    },
+    {
+      "key": "age-15-29",
+      "label": "15~29세",
+      "from": 15,
+      "to": 29,
+      "alt": [
+        "청년층",
+        "청년"
+      ],
+      "stages": [
+        "youth"
+      ]
+    },
+    {
+      "key": "age-15-64",
+      "label": "15~64세",
+      "from": 15,
+      "to": 64,
+      "alt": [
+        "생산연령인구",
+        "생산가능인구"
+      ],
+      "stages": [
+        "employment",
+        "midlife"
+      ]
+    },
+    {
+      "key": "age-65up",
+      "label": "65세 이상",
+      "from": 65,
+      "to": 120,
+      "alt": [
+        "고령층",
+        "노인",
+        "고령인구"
+      ],
+      "stages": [
+        "aging"
+      ]
+    },
+    {
+      "key": "age-15up",
+      "label": "15세 이상",
+      "from": 15,
+      "to": 120,
+      "alt": [
+        "생산활동 대상"
+      ],
+      "stages": []
+    },
+    {
+      "key": "age-all",
+      "label": "전 연령",
+      "from": 0,
+      "to": 120,
+      "alt": [
+        "연령 무관",
+        "전체"
+      ],
+      "stages": []
+    }
+  ],
+  "sexes": [
+    {
+      "key": "sex-t",
+      "label": "계",
+      "alt": [
+        "전체",
+        "남녀 합계"
+      ]
+    },
+    {
+      "key": "sex-m",
+      "label": "남자",
+      "alt": [
+        "남",
+        "남성",
+        "남자분"
+      ]
+    },
+    {
+      "key": "sex-f",
+      "label": "여자",
+      "alt": [
+        "여",
+        "여성",
+        "여자분"
+      ]
+    }
+  ],
+  "maritalStatuses": [
+    {
+      "key": "ms-all",
+      "label": "계",
+      "alt": [
+        "전체",
+        "혼인상태 무관"
+      ]
+    },
+    {
+      "key": "ms-single",
+      "label": "미혼",
+      "alt": [
+        "비혼",
+        "결혼 안 함",
+        "싱글",
+        "독신"
+      ]
+    },
+    {
+      "key": "ms-married",
+      "label": "유배우",
+      "alt": [
+        "기혼",
+        "배우자 있음",
+        "결혼함",
+        "부부"
+      ]
+    },
+    {
+      "key": "ms-bereaved",
+      "label": "사별",
+      "alt": [
+        "배우자 사망"
+      ]
+    },
+    {
+      "key": "ms-divorced",
+      "label": "이혼",
+      "alt": [
+        "갈라섬"
+      ]
+    }
+  ]
+}

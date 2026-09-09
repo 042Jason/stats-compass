@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>생애나침반 — 5분 시연 목업</title>
+<style>
+  :root{
+    --ink:#333; --sub:#6b7280; --line:#dfe3e8; --bg:#fff;
+    --brand:#1a5276; --brand2:#2c5f8a; --soft:#eef4f9;
+    --warn:#c0392b; --warnbg:#fdf3f2; --ok:#1e8449;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:#f5f6f8; color:var(--ink); line-height:1.7;
+    font-family:"Pretendard","Malgun Gothic","맑은 고딕","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    font-size:15px;
+  }
+  .wrap{max-width:860px; margin:0 auto; padding:24px 16px 80px; background:var(--bg);}
+  .mono{font-family:"Consolas","D2Coding",monospace;}
+
+  /* ── 표지 ─────────────────────────────────────── */
+  .cover{background:var(--brand); color:#fff; padding:28px 24px; border-radius:10px; margin-bottom:8px;}
+  .cover .eyebrow{font-size:12px; letter-spacing:.08em; opacity:.85; margin:0 0 6px;}
+  .cover h1{font-size:26px; margin:0 0 8px; line-height:1.35;}
+  .cover p{margin:0; font-size:14px; opacity:.92;}
+  .cover .meta{margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,.25); font-size:13px; opacity:.9;}
+
+  .notice{
+    background:#fffbe6; border:1px solid #f0d264; border-left:4px solid #d4a017;
+    padding:12px 14px; border-radius:6px; font-size:13.5px; margin:16px 0 28px;
+  }
+
+  h2{font-size:19px; margin:40px 0 6px; padding-bottom:8px; border-bottom:2px solid var(--brand); color:var(--brand);}
+  h3{font-size:16px; margin:26px 0 8px;}
+  p{margin:8px 0;}
+  .lead{color:var(--sub); font-size:14px; margin:0 0 14px;}
+
+  /* ── 시연 챕터 ─────────────────────────────────── */
+  .chapter{border:1px solid var(--line); border-radius:10px; margin:22px 0; overflow:hidden;}
+  .chapter > .head{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    background:var(--soft); padding:12px 16px; border-bottom:1px solid var(--line);
+  }
+  .tcode{
+    background:var(--brand); color:#fff; border-radius:4px; padding:2px 8px;
+    font-size:12px; font-family:"Consolas","D2Coding",monospace; white-space:nowrap;
+  }
+  .ctitle{font-weight:700; font-size:15.5px;}
+  .chapter > .body{padding:16px;}
+  .script{
+    background:#fafbfc; border-left:3px solid var(--brand2); padding:10px 14px;
+    margin:0 0 16px; font-size:14px; color:#374151;
+  }
+  .script b{color:var(--brand);}
+
+  /* ── 화면 목업 프레임 ──────────────────────────── */
+  .screen{border:1px solid #c9d2da; border-radius:8px; background:#fff; overflow:hidden;}
+  .screen .bar{
+    background:#eceff2; border-bottom:1px solid #c9d2da; padding:6px 10px;
+    font-size:11.5px; color:#5b6670; font-family:"Consolas","D2Coding",monospace;
+  }
+  .screen .view{padding:14px;}
+
+  .navbar{display:flex; gap:14px; flex-wrap:wrap; align-items:center; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:14px;}
+  .logo{font-weight:800; color:var(--brand); font-size:15px;}
+  .navbar span{font-size:13px; color:var(--sub);}
+  .navbar span.on{color:var(--brand); font-weight:700; border-bottom:2px solid var(--brand); padding-bottom:2px;}
+
+  .qbox{display:flex; gap:8px; align-items:stretch;}
+  .qinput{
+    flex:1; border:1px solid #b9c3cc; border-radius:6px; padding:10px 12px;
+    font-size:14.5px; background:#fff;
+  }
+  .qbtn{background:var(--brand); color:#fff; border-radius:6px; padding:10px 16px; font-size:14px; white-space:nowrap;}
+
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;}
+  .chip{border:1px solid var(--line); border-radius:999px; padding:4px 11px; font-size:12.5px; color:#4b5563; background:#fff;}
+  .chip.on{background:var(--brand); border-color:var(--brand); color:#fff; font-weight:600;}
+  .chip.seed{border-style:solid; background:#f8fafc;}
+  .chip.seed .k{color:var(--sub); font-size:11px; margin-right:4px;}
+  .chip.seed .v{font-family:"Consolas","D2Coding",monospace; color:var(--brand2); margin-left:5px;}
+
+  /* 생애단계 타임라인 */
+  .timeline{display:flex; gap:4px; overflow-x:auto; padding-bottom:4px; margin:14px 0;}
+  .stage{
+    flex:1 0 96px; border:1px solid var(--line); border-radius:6px; padding:7px 8px;
+    background:#fff; opacity:.45;
+  }
+  .stage.on{opacity:1; border-color:#a8c4dc; background:var(--soft);}
+  .stage .n{font-size:10px; color:var(--sub); font-family:"Consolas","D2Coding",monospace; display:block;}
+  .stage .l{font-size:12.5px; font-weight:700; display:block; line-height:1.35;}
+
+  /* 결과 카드 */
+  .card{border:1px solid var(--line); border-radius:8px; padding:13px 14px; margin:10px 0; background:#fff;}
+  .card .top{display:flex; justify-content:space-between; align-items:baseline; gap:8px; flex-wrap:wrap;}
+  .card .name{font-weight:700; font-size:15px; color:var(--brand);}
+  .card .score{font-size:12px; color:var(--sub); font-family:"Consolas","D2Coding",monospace;}
+  .bar{height:5px; background:#eef1f4; border-radius:99px; margin:8px 0 10px; overflow:hidden;}
+  .bar > i{display:block; height:100%; background:var(--brand); border-radius:99px;}
+  .card .desc{font-size:13.5px; color:#4b5563; margin:0 0 10px;}
+
+  .paths{border-top:1px dashed var(--line); padding-top:9px; margin:0; list-style:none;}
+  .paths li{font-size:12.5px; color:#4b5563; padding:2px 0;}
+  .tag{
+    display:inline-block; background:#eef1f4; color:#5b6670; border-radius:3px;
+    padding:0 6px; font-size:11px; margin-right:5px;
+  }
+  .tag.q{background:#e6f2ec; color:#1e8449;}
+  .tag.i{background:#f6e9f6; color:#8e44ad;}
+  .tag.c{background:#fbe9f2; color:#c2185b;}
+  .tag.s{background:#e7eff6; color:var(--brand);}
+  .arrow{color:#9aa5b1; margin:0 5px;}
+  .sim{color:#9aa5b1; font-family:"Consolas","D2Coding",monospace; font-size:11.5px;}
+
+  /* 경고 */
+  .warn{background:var(--warnbg); border:1px solid #e8b4ae; border-left:4px solid var(--warn); border-radius:6px; padding:12px 14px; margin:10px 0;}
+  .warn .h{font-weight:700; color:#8c2b21; font-size:14px; margin:0 0 4px;}
+  .warn p{margin:0; font-size:13.5px; color:#6b2a23;}
+
+  /* 표 */
+  .tblwrap{overflow-x:auto; border:1px solid var(--line); border-radius:6px;}
+  table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:520px;}
+  th,td{border-bottom:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
+  thead th{background:#f2f5f8; font-weight:700; color:#374151; white-space:nowrap;}
+  tbody tr:last-child td{border-bottom:none;}
+  td.num{font-family:"Consolas","D2Coding",monospace; white-space:nowrap;}
+
+  /* 그래프 경로 (SVG 없이) */
+  .flow{display:flex; flex-wrap:wrap; align-items:center; gap:6px; background:#fafbfc; border:1px solid var(--line); border-radius:6px; padding:12px; font-size:13px;}
+  .node{border:1px solid #c9d2da; border-radius:6px; padding:5px 10px; background:#fff; font-weight:600;}
+  .node.q{border-color:#a8d5bd; background:#f0f8f4;}
+  .node.i{border-color:#dcc0dc; background:#faf3fa;}
+  .node.s{border-color:#a8c4dc; background:var(--soft); color:var(--brand);}
+  .node.t{border-color:#cfd8e0; background:#f7f9fb; font-weight:500;}
+  .edge{color:var(--sub); font-size:12px; white-space:nowrap;}
+
+  /* 채팅 목업 */
+  .chat{border:1px solid var(--line); border-radius:8px; overflow:hidden;}
+  .chat .msg{padding:12px 14px; font-size:13.5px;}
+  .chat .me{background:#f2f5f8; border-bottom:1px solid var(--line);}
+  .chat .ai{background:#fff;}
+  .chat .who{font-size:11px; color:var(--sub); font-weight:700; letter-spacing:.04em; margin:0 0 4px;}
+  .toolcall{
+    background:#1f2933; color:#cfe3f2; border-radius:6px; padding:9px 11px; margin:8px 0;
+    font-family:"Consolas","D2Coding",monospace; font-size:12px; overflow-x:auto; white-space:pre;
+  }
+  .toolcall .fn{color:#7fd1b9;}
+  .toolcall .arg{color:#f0c674;}
+
+  /* 5단계 요건 */
+  .steps{list-style:none; padding:0; margin:0;}
+  .steps li{display:flex; gap:12px; padding:11px 0; border-bottom:1px solid var(--line);}
+  .steps li:last-child{border-bottom:none;}
+  .steps .no{
+    flex:0 0 34px; height:34px; border-radius:50%; background:var(--soft); color:var(--brand);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px;
+    font-family:"Consolas","D2Coding",monospace;
+  }
+  .steps .t{font-weight:700; font-size:14.5px;}
+  .steps .d{font-size:13.5px; color:#4b5563;}
+  .done{color:var(--ok); font-weight:700; font-size:12.5px;}
+
+  .qa{border:1px solid var(--line); border-radius:8px; padding:14px; margin:10px 0; background:#fff;}
+  .qa .q{font-weight:700; color:var(--brand); font-size:14.5px; margin:0 0 6px;}
+  .qa .a{font-size:13.5px; margin:0; color:#374151;}
+
+  .foot{margin-top:44px; padding-top:14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--sub);}
+
+  @media print{
+    body{background:#fff;}
+    .wrap{max-width:none;}
+    .chapter,.card,.screen,.qa{break-inside:avoid;}
+  }
+  @media (max-width:480px){
+    .cover h1{font-size:21px;}
+    .stage{flex:1 0 84px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="cover">
+    <p class="eyebrow">공공 × 데이터 × AI · 바이브코딩 프로젝트</p>
+    <h1>생애나침반<br>생애주기 연구자를 위한 통계 지식그래프 검색</h1>
+    <p>조사 이름을 몰라도, 알고 싶은 것을 물으면 참고할 국가승인통계를 근거와 함께 찾아 줍니다.</p>
+    <div class="meta">국가데이터처 국가승인통계 · GraphRAG · DCAT/SKOS/SDMX 정합 온톨로지 &nbsp;│&nbsp; 5분 시연 목업</div>
+  </div>
+
+  <div class="notice">
+    <b>이 문서는 시연 대본과 화면 목업입니다.</b> 아래 화면에 보이는 조사명·유의사항·관계는 실제 구축한 데이터에서 가져온 것이지만,
+    <b>관련도 점수와 통계표 시점은 발표 흐름을 보이기 위한 예시값</b>입니다. 실제 시연에서는 라이브 화면을 띄웁니다.
+  </div>
+
+  <h2>한 줄 요약</h2>
+  <p>
+    국가승인통계는 조사 69개, 통계표 11,163개가 있지만 <b>연구자는 어떤 조사를 봐야 하는지부터 막힙니다.</b>
+    조사 이름을 알아야 검색이 되고, 비슷한 통계 중 무엇을 골라야 하는지, 섞어 쓰면 안 되는 조합이 무엇인지는 어디에도 정리돼 있지 않습니다.
+    생애나침반은 통계를 <b>생애단계·핵심지표·연구질문·통계개념으로 엮은 지식그래프</b>로 만들고,
+    질문을 벡터로 받아 그래프를 타고 답을 찾는 <b>GraphRAG</b> 구조로 이 문제를 풉니다.
+  </p>
+
+  <h2>5분 시연 흐름</h2>
+  <p class="lead">각 장면의 목표 시간, 화면, 그리고 실제로 할 말입니다.</p>
+
+  <!-- ── 00:00 ─────────────────────────────────── -->
+  <div class="chapter">
+    <div class="head">
+      <span class="tcode">00:00</span>
+      <span class="ctitle">문제 — 연구자는 조사 이름부터 막힌다</span>
+    </div>
+    <div class="body">
+      <div class="script">
+        <b>대사</b> · &ldquo;생애주기를 연구한다고 해 봅시다. &lsquo;은퇴하면 소득이 얼마나 줄어드나&rsquo;를 보고 싶습니다.
+        그런데 KOSIS에 &lsquo;은퇴 소득&rsquo;이라고 치면 아무것도 안 나옵니다.
+        <b>가계금융복지조사</b>, <b>연금통계</b>, <b>국민이전계정</b>을 봐야 한다는 걸 이미 알고 있어야 검색이 됩니다.
+        모르면 시작을 못 합니다.&rdquo;
+      </div>
+      <div class="screen">
+        <div class="bar">kosis.kr &nbsp;·&nbsp; 통합검색</div>
+        <div class="view">
+          <div class="qbox">
+            <div class="qinput">은퇴 소득</div>
+            <div class="qbtn">검색</div>
+          </div>
+          <p style="margin:16px 0 0; color:#9aa5b1; font-size:13.5px; text-align:center;">
+            &mdash; 통계표 검색 결과가 없습니다 &mdash;
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 00:40 ─────────────────────────────────── -->
+  <div class="chapter">
+    <div class="head">
+      <span class="tcode">00:40</span>
+      <span class="ctitle">화면 ① 질문을 그대로 던진다</span>
+    </div>
+    <div class="body">
+      <div class="script">
+        <b>대사</b> · &ldquo;생애나침반에서는 조사 이름 대신 <b>알고 싶은 것을 그대로</b> 씁니다.
+        생애단계로 범위를 좁힐 수도 있습니다. 지금은 &lsquo;은퇴·노후준비&rsquo; 단계를 선택했습니다.&rdquo;
+      </div>
+      <div class="screen">
+        <div class="bar">stats-compass.vercel.app/research</div>
+        <div class="view">
+          <div class="navbar">
+            <span class="logo">통계나침반</span>
+            <span class="on">생애나침반</span><span>조사 찾기</span><span>큐레이션</span><span>관계망</span>
+          </div>
+          <div class="qbox">
+            <div class="qinput">은퇴하면 소득이 얼마나 줄어드나요?</div>
+            <div class="qbtn">찾기</div>
+          </div>
+          <div class="chips">
+            <span class="chip">출생·영유아</span>
+            <span class="chip">학령·교육</span>
+            <span class="chip">청년·이행</span>
+            <span class="chip">취업·일자리</span>
+            <span class="chip">결혼·가구형성</span>
+            <span class="chip">주거·자산</span>
+            <span class="chip">중장년·소득</span>
+            <span class="chip on">은퇴·노후준비</span>
+            <span class="chip">노년·건강·사망</span>
+          </div>
+          <div class="timeline">
+            <div class="stage"><span class="n">01</span><span class="l">출생·영유아</span></div>
+            <div class="stage"><span class="n">02</span><span class="l">학령·교육</span></div>
+            <div class="stage"><span class="n">03</span><span class="l">청년·이행</span></div>
+            <div class="stage"><span class="n">04</span><span class="l">취업·일자리</span></div>
+            <div class="stage"><span class="n">05</span><span class="l">결혼·가구형성</span></div>
+            <div class="stage"><span class="n">06</span><span class="l">주거·자산</span></div>
+            <div class="stage"><span class="n">07</span><span class="l">중장년·소득</span></div>
+            <div class="stage on"><span class="n">08</span><span class="l">은퇴·노후준비</span></div>
+            <div class="stage"><span class="n">09</span><span class="l">노년·건강·사망</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 01:30 ─────────────────────────────────── -->
+  <div class="chapter">
+    <div class="head">
+      <span class="tcode">01:30</span>
+      <span class="ctitle">화면 ② 결과 — 왜 이 조사인지 경로를 보여 준다</span>
+    </div>
+    <div class="body">
+      <div class="script">
+        <b>대사</b> · &ldquo;여기가 핵심입니다. 그냥 순위만 주는 게 아니라
+        <b>어떤 노드에서 어떤 관계를 타고 이 조사에 도달했는지</b>를 같이 보여 줍니다.
+        1위인 가계금융복지조사는 &lsquo;연구질문&rsquo; 노드에서 <span class="mono">answeredBy</span> 관계로,
+        &lsquo;가구 경상소득&rsquo; 지표에서 <span class="mono">measuredBy</span> 관계로 도달했습니다.
+        벡터 유사도만 쓰는 RAG는 이 근거를 만들어 내지 못합니다.&rdquo;
+      </div>
+
+      <div class="screen">
+        <div class="bar">stats-compass.vercel.app/research?q=은퇴하면 소득이 얼마나 줄어드나요?&amp;stage=retirement</div>
+        <div class="view">
+          <p style="font-size:12.5px; color:#6b7280; margin:0 0 6px; font-weight:700;">질문과 가까운 노드 (벡터 검색 1단계)</p>
+          <div class="chips">
+            <span class="chip seed"><span class="k">연구질문</span>은퇴하면 소득이 얼마나 줄어드나요?<span class="v">0.91</span></span>
+            <span class="chip seed"><span class="k">지표</span>생애주기적자<span class="v">0.78</span></span>
+            <span class="chip seed"><span class="k">지표</span>월평균 연금 수급금액<span class="v">0.74</span></span>
+            <span class="chip seed"><span class="k">용어</span>경상소득<span class="v">0.71</span></span>
+            <span class="chip seed"><span class="k">생애단계</span>은퇴·노후준비<span class="v">0.69</span></span>
+          </div>
+
+          <h3 style="margin:18px 0 4px; font-size:15px;">참고할 통계조사</h3>
+
+          <div class="card">
+            <div class="top"><span class="name">가계금융복지조사</span><span class="score">관련도 0.912</span></div>
+            <div class="bar"><i style="width:100%"></i></div>
+            <p class="desc">가구의 자산·부채·소득·지출을 함께 보는 조사입니다. 은퇴연령층 가구의 소득원천 구성을 볼 수 있습니다.</p>
+            <ul class="paths">
+              <li><span class="tag q">연구질문</span>은퇴하면 소득이 얼마나 줄어드나요?<span class="arrow">▶</span>이 질문에 답할 수 있는 조사라서 <span class="sim">(0.91)</span></li>
+              <li><span class="tag i">지표</span>가구 경상소득<span class="arrow">▶</span>이 지표를 산출하는 조사라서 <span class="sim">(0.71)</span></li>
+              <li><span class="tag c">용어</span>경상소득<span class="arrow">▶</span>이 용어를 정의하는 조사라서 <span class="sim">(0.71)</span></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="top"><span class="name">연금통계</span><span class="score">관련도 0.834</span></div>
+            <div class="bar"><i style="width:91%"></i></div>
+            <p class="desc">공적·사적 연금 11종의 행정자료를 연계한 통계입니다. 연금 수급자 수와 월평균 수급금액을 봅니다.</p>
+            <ul class="paths">
+              <li><span class="tag q">연구질문</span>은퇴하면 소득이 얼마나 줄어드나요?<span class="arrow">▶</span>이 질문에 답할 수 있는 조사라서 <span class="sim">(0.91)</span></li>
+              <li><span class="tag i">지표</span>월평균 연금 수급금액<span class="arrow">▶</span>이 지표를 산출하는 조사라서 <span class="sim">(0.74)</span></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="top"><span class="name">국민이전계정</span><span class="score">관련도 0.772</span></div>
+            <div class="bar"><i style="width:85%"></i></div>
+            <p class="desc">나이별로 얼마를 벌고 얼마를 쓰는지를 계정으로 만든 통계입니다. 생애주기적자가 언제 시작되는지 볼 수 있습니다.</p>
+            <ul class="paths">
+              <li><span class="tag i">지표</span>생애주기적자<span class="arrow">▶</span>이 지표를 산출하는 조사라서 <span class="sim">(0.78)</span></li>
+              <li><span class="tag q">연구질문</span>은퇴하면 소득이 얼마나 줄어드나요?<span class="arrow">▶</span>이 질문에 답할 수 있는 조사라서 <span class="sim">(0.91)</span></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="top"><span class="name">가계동향조사</span><span class="score">관련도 0.398</span></div>
+            <div class="bar"><i style="width:44%"></i></div>
+            <p class="desc">분기별 가구 소득과 소비지출을 보는 조사입니다.</p>
+            <ul class="paths">
+              <li><span class="tag s">조사</span>가계금융복지조사<span class="arrow">▶</span>같은 개념을 쓰는 조사라서 <span class="sim">(0.91)</span></li>
+              <li><span class="tag s">생애단계</span>은퇴·노후준비<span class="arrow">▶</span>이 생애단계를 다루는 조사라서 <span class="sim">(0.69)</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h3>이 화면이 만들어지는 순서</h3>
+      <div class="flow">
+        <span class="node q">연구질문<br>은퇴하면 소득이…</span>
+        <span class="edge">─ answeredBy ▶</span>
+        <span class="node s">가계금융복지조사</span>
+        <span class="edge">─ hasDistribution ▶</span>
+        <span class="node t">가구주 연령계층별 가구소득</span>
+      </div>
+      <div class="flow" style="margin-top:8px;">
+        <span class="node i">지표<br>생애주기적자</span>
+        <span class="edge">─ measuredBy ▶</span>
+        <span class="node s">국민이전계정</span>
+        <span class="edge">─ oftenConfusedWith ▶</span>
+        <span class="node s">국민시간이전계정</span>
+        <span class="edge" style="color:#c0392b;">⚠ 더하면 안 됨</span>
+      </div>
+      <p class="lead" style="margin-top:10px;">
+        ① 질문을 임베딩해 가까운 노드를 찾고 → ② 그 노드에서 관계를 1홉 타고 조사에 도달하고 →
+        ③ 유사도 × 관계별 감쇠를 합산해 순위를 매기고 → ④ 지나온 경로를 근거로 함께 돌려줍니다.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── 02:30 ─────────────────────────────────── -->
+  <div class="chapter">
+    <div class="head">
+      <span class="tcode">02:30</span>
+      <span class="ctitle">화면 ③ 섞으면 안 되는 조합 &mdash; 이 프로젝트의 차별점</span>
+    </div>
+    <div class="body">
+      <div class="script">
+        <b>대사</b> · &ldquo;검색 결과를 주는 서비스는 많습니다. 그런데 <b>&lsquo;이 둘은 섞으면 안 된다&rsquo;고 말해 주는 서비스는 없습니다.</b>
+        저희는 조사별 유의사항 374개 문장에서 &lsquo;다른 통계와 혼동하지 말라&rsquo;는 취지의 조사쌍 30개를 뽑아 관계로 만들었습니다.
+        KOSIS 원문에도 이렇게 정리된 곳은 없습니다.&rdquo;
+      </div>
+      <div class="screen">
+        <div class="bar">stats-compass.vercel.app/research &nbsp;·&nbsp; 결과 하단</div>
+        <div class="view">
+          <h3 style="margin:0 0 8px; font-size:15px;">섞어 쓰면 안 되는 조합</h3>
+          <div class="warn">
+            <p class="h">⚠ 가계금융복지조사 · 가계동향조사</p>
+            <p>가계금융복지조사는 연간 경상소득을, 가계동향조사는 분기 소득·소비지출을 봅니다. 두 통계의 소득 금액을 직접 비교하면 안 됩니다.</p>
+          </div>
+          <div class="warn">
+            <p class="h">⚠ 국민이전계정 · 국민시간이전계정</p>
+            <p>이름이 비슷하지만 다루는 대상이 다릅니다. 국민시간이전계정의 금액은 실제로 오간 돈이 아니라 노동시간에 값을 매긴 추계값이라 두 계정의 값을 그냥 더하면 안 됩니다.</p>
+          </div>
+
+          <h3 style="margin:20px 0 8px; font-size:15px;">바로 볼 만한 통계표</h3>
+          <div class="tblwrap">
+            <table>
+              <caption class="mono" style="caption-side:bottom; text-align:left; padding:6px 10px; font-size:11.5px; color:#9aa5b1;">
+                시점은 예시값입니다. 실제 화면은 latest_period 를 그대로 씁니다.
+              </caption>
+              <thead>
+                <tr><th>통계표</th><th>조사</th><th>최신 시점</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>가구주 연령계층별 가구소득</td><td>가계금융복지조사</td><td class="num">2025</td></tr>
+                <tr><td>은퇴연령층 가구의 소득원천별 구성</td><td>가계금융복지조사</td><td class="num">2025</td></tr>
+                <tr><td>연금종류별 수급자 수 및 월평균 수급금액</td><td>연금통계</td><td class="num">2023</td></tr>
+                <tr><td>연령별 1인당 노동소득 및 소비</td><td>국민이전계정</td><td class="num">2022</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin:20px 0 8px; font-size:15px;">관련 보도자료</h3>
+          <div class="tblwrap">
+            <table>
+              <thead><tr><th>제목</th><th>담당부서</th><th>게시일</th></tr></thead>
+              <tbody>
+                <tr><td>2025년 가계금융복지조사 결과</td><td>복지통계과</td><td class="num">2026-12-09</td></tr>
+                <tr><td>2023년 포괄적 연금통계 결과</td><td>행정통계과</td><td class="num">2026-05-27</td></tr>
+                <tr><td>2022년 국민이전계정</td><td>복지통계과</td><td class="num">2025-11-26</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 03:20 ─────────────────────────────────── -->
+  <div class="chapter">
+    <div class="head">
+      <span class="tcode">03:20</span>
+      <span class="ctitle">화면 ④ 관계망 &mdash; 그래프를 직접 만져 본다</span>
+    </div>
+    <div class="body">
+      <div class="script">
+        <b>대사</b> · &ldquo;검색 결과 뒤에 있는 그래프 자체도 볼 수 있습니다.
+        노드 468개, 관계 1,540개입니다. 빨간 선이 &lsquo;섞으면 안 되는&rsquo; 조사쌍입니다.
+        클래스와 관계는 <b>DCAT 3 · SKOS · RDF Data Cube(SDMX)</b> 어휘에 매핑해 뒀습니다.&rdquo;
+      </div>
+
+      <div class="screen">
+        <div class="bar">stats-compass.vercel.app/graph</div>
+        <div class="view">
+          <div class="chips" style="margin-bottom:12px;">
+            <span class="chip on">조사 관계망</span><span class="chip">개념 지도</span>
+            <span class="chip">카탈로그 구조</span><span class="chip">헷갈리는 통계</span>
+          </div>
+          <div class="tblwrap">
+            <table>
+              <caption class="mono" style="caption-side:bottom; text-align:left; padding:6px 10px; font-size:11.5px; color:#9aa5b1;">
+                실제 화면은 힘 기반 네트워크 그래프입니다. 이 문서에서는 표로 대신 보여 줍니다.
+              </caption>
+              <thead><tr><th>클래스</th><th>노드 수</th><th>표준 어휘</th><th>SDMX 대응</th></tr></thead>
+              <tbody>
+                <tr><td>조사</td><td class="num">69</td><td class="mono">dcat:Dataset</td><td>Dataflow 묶음</td></tr>
+                <tr><td>통계개념</td><td class="num">313</td><td class="mono">skos:Concept</td><td>Concept</td></tr>
+                <tr><td>핵심지표</td><td class="num">47</td><td class="mono">qb:MeasureProperty</td><td>Measure</td></tr>
+                <tr><td>연구질문</td><td class="num">49</td><td>&mdash;</td><td>&mdash;</td></tr>
+                <tr><td>생애단계</td><td class="num">9</td><td class="mono">skos:Concept</td><td>Category Scheme</td></tr>
+                <tr><td>통계표</td><td class="num">1,600+</td><td class="mono">dcat:Distribution</td><td>qb:DataSet</td></tr>
+                <tr><td>작성기관</td><td class="num">12</td><td class="mono">foaf:Agent</td><td>Data Provider</td></tr>
+                <tr><td>주제분야 · 주제어 · 주기 · 법적근거</td><td class="num">73</td><td class="mono">dcat:theme 외</td><td>&mdash;</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="lead" style="margin-top:10px;">
+            핵심 관계 &mdash;
+            <span class="mono">definesConcept</span> 378 ·
+            <span class="mono">broaderConcept</span> 301 ·
+            <span class="mono">hasKeyword</span> 219 ·
+            <span class="mono">sharesConceptWith</span> 78 ·
+            <span class="mono">oftenConfusedWith</span> 30
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 04:00 ─────────────────────────────────── -->
+  <div class="chapter">
+    <div class="head">
+      <span class="tcode">04:00</span>
+      <span class="ctitle">화면 ⑤ MCP &mdash; 에이전트가 도구로 쓴다</span>
+    </div>
+    <div class="body">
+      <div class="script">
+        <b>대사</b> · &ldquo;같은 검색을 MCP 도구로도 열어 뒀습니다.
+        연구자가 쓰던 AI 도구 안에서 그대로 부를 수 있습니다.
+        <b>웹 화면과 에이전트가 같은 그래프를 봅니다.</b>&rdquo;
+      </div>
+      <div class="chat">
+        <div class="msg me">
+          <p class="who">연구자</p>
+          은퇴 후 소득 감소를 보려는데 어떤 통계를 봐야 하고, 주의할 점이 뭔가요?
+        </div>
+        <div class="msg ai">
+          <p class="who">AI 에이전트</p>
+          <div class="toolcall"><span class="fn">lifecourse_search</span>({
+  <span class="arg">question</span>: "은퇴 후 소득 감소",
+  <span class="arg">stages</span>: ["retirement"]
+})</div>
+          <p style="margin:8px 0 4px;">세 가지를 함께 보셔야 합니다.</p>
+          <p style="margin:0 0 4px;">
+            <b>① 가계금융복지조사</b> — 은퇴연령층 가구의 소득원천 구성<br>
+            <b>② 연금통계</b> — 연금 종류별 월평균 수급금액<br>
+            <b>③ 국민이전계정</b> — 나이별 노동소득과 소비의 차이(생애주기적자)
+          </p>
+          <div class="toolcall"><span class="fn">lifecourse_cautions</span>({
+  <span class="arg">surveys</span>: ["가계금융복지조사","연금통계","국민이전계정"]
+})</div>
+          <p style="margin:8px 0 0; color:#8c2b21;">
+            ⚠ 연금통계의 연금 종류별 수급자 수를 그대로 더하면 같은 사람을 여러 번 세게 됩니다.<br>
+            ⚠ 가계금융복지조사(연간 경상소득)와 가계동향조사(분기 소득)의 금액을 직접 비교하면 안 됩니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 04:40 ─────────────────────────────────── -->
+  <div class="chapter">
+    <div class="head">
+      <span class="tcode">04:40</span>
+      <span class="ctitle">마무리 &mdash; 무엇을 남겼고 어디까지 갈 수 있나</span>
+    </div>
+    <div class="body">
+      <div class="script">
+        <b>대사</b> · &ldquo;하루 만에 만든 건 생애주기 27개 조사에 대한 POC입니다.
+        같은 구조를 나머지 조사로 넓히고, 통계표 아래 <b>분류·항목 계층</b>까지 내려가면
+        &lsquo;어느 표의 어느 셀을 보라&rsquo;까지 답할 수 있습니다.
+        온톨로지를 DCAT/SKOS 표준에 맞춰 뒀기 때문에 <b>JSON-LD로 내보내 공공데이터로 개방</b>하는 것도 그대로 이어집니다.&rdquo;
+      </div>
+      <ul class="steps">
+        <li><span class="no">01</span><span><span class="t">주제·범위</span> <span class="done">✓</span><br>
+          <span class="d">생애단계 9 · 대상 조사 27 · 핵심지표 47 · 연구질문 49</span></span></li>
+        <li><span class="no">02</span><span><span class="t">외부 데이터 확보</span> <span class="done">✓</span><br>
+          <span class="d">KOSIS OpenAPI로 통계표 11,163건, mods.go.kr 보도자료 크롤링</span></span></li>
+        <li><span class="no">03</span><span><span class="t">AI 에이전트 분석</span> <span class="done">✓</span><br>
+          <span class="d">GraphRAG 교차검증 — 벡터 진입 + 그래프 확장 + 근거 경로, MCP 도구 3종</span></span></li>
+        <li><span class="no">04</span><span><span class="t">시각화·인사이트</span> <span class="done">✓</span><br>
+          <span class="d">/research 근거 경로 화면 + /graph 관계망 탐색기</span></span></li>
+        <li><span class="no">05</span><span><span class="t">시연·문서화</span> <span class="done">✓</span><br>
+          <span class="d">웹 프로토타입(Vercel) + 데이터 출처·방법론 문서 + 5분 시연</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>데이터 출처</h2>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>구분</th><th>출처</th><th>수집 방법</th><th>규모</th></tr></thead>
+      <tbody>
+        <tr><td>통계표 목록·메타</td><td>KOSIS 공유서비스 OpenAPI</td><td>statisticsList.do / statisticsData.do</td><td class="num">11,163표 · 69조사</td></tr>
+        <tr><td>조사 설명·용어·유의사항</td><td>KOSIS 통계설명자료 + 보도자료</td><td>API + 웹검색 보완</td><td class="num">용어 328 · 유의사항 374</td></tr>
+        <tr><td>보도자료</td><td>mods.go.kr (구 kostat.go.kr)</td><td>조사별 게시판 크롤링 (robots.txt 허용)</td><td class="num">27개 게시판</td></tr>
+        <tr><td>작성기관</td><td>국가데이터처 부서 목록</td><td>내부 자료로 손상 명칭 복원</td><td class="num">부서 73</td></tr>
+        <tr><td>온톨로지 어휘</td><td>DCAT 3 · SKOS · RDF Data Cube</td><td>W3C 권고안 URI 매핑</td><td class="num">클래스 13 · 관계 24</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>예상 질문과 답변</h2>
+
+  <div class="qa">
+    <p class="q">Q. 그냥 벡터 RAG를 쓰면 되지 않나요? 그래프가 왜 필요합니까?</p>
+    <p class="a">벡터만 쓰면 <b>왜 그 결과가 나왔는지 설명할 수 없고, 경고를 붙일 수 없습니다.</b>
+    저희는 조사·용어·지표·연구질문을 관계로 이어 뒀기 때문에, 질문에 조사 이름이 없어도 지표나 연구질문 노드를 거쳐 조사에 도달하고,
+    도달 경로가 그대로 근거가 됩니다. &lsquo;섞으면 안 되는 조합&rsquo; 경고도 관계가 있어야 나옵니다.</p>
+  </div>
+
+  <div class="qa">
+    <p class="q">Q. 연구질문 49개는 누가 정했나요? 그 밖의 질문은 못 찾는 것 아닌가요?</p>
+    <p class="a">연구질문은 <b>진입점을 늘리는 장치</b>이지 검색 범위를 가두는 장치가 아닙니다.
+    질문 노드에 걸리지 않아도 지표·용어·통계표·주제어 노드로 진입할 수 있습니다.
+    다만 질문 노드에 걸리면 정확도가 크게 올라가므로, 실제 검색 로그를 모아 질문 노드를 계속 늘리는 것이 다음 단계입니다.</p>
+  </div>
+
+  <div class="qa">
+    <p class="q">Q. 유의사항 30쌍은 사람이 손으로 정리한 건가요?</p>
+    <p class="a">조사별 유의사항 374개 문장을 AI로 훑어 &lsquo;다른 통계와 혼동하지 말라&rsquo;는 취지의 문장을 골라내고,
+    지목 대상이 69개 조사 안에 있을 때만 관계로 만들었습니다. 목록 밖 대상은 버렸습니다.
+    각 관계에는 <b>근거가 된 원문 문장</b>이 함께 저장돼 있어 되짚어 확인할 수 있습니다.</p>
+  </div>
+
+  <div class="qa">
+    <p class="q">Q. 통계표가 11,163개인데 1,600개만 올린 이유는?</p>
+    <p class="a">하루 POC라 <b>생애주기 관련 27개 조사</b>로 범위를 좁혔고, 조사당 80개로 끊었습니다.
+    끊을 때는 지표 이름이 표 제목에 들어 있는 표를 먼저 남겨 연구자가 찾을 만한 표가 살아남게 했습니다.
+    나머지는 DB에 그대로 있으므로 상한만 올리면 확장됩니다.</p>
+  </div>
+
+  <div class="qa">
+    <p class="q">Q. 국가데이터처가 아닌 기관의 통계는 어떻게 되나요?</p>
+    <p class="a">이번 범위는 국가데이터처 작성 통계입니다. 수집 과정에서 딸려 온 타 기관 통계(예: 행정안전부 주민등록인구현황)는
+    작성기관이 다르다는 것을 확인하고 목록에서 제외했습니다. 다만 온톨로지 구조는 기관을 노드로 두고 있어
+    <b>타 기관 통계를 넣어도 스키마를 바꿀 필요가 없습니다.</b></p>
+  </div>
+
+  <div class="qa">
+    <p class="q">Q. 검색 결과가 틀리면요?</p>
+    <p class="a">근거 경로를 항상 함께 보여 주기 때문에 <b>어디서 틀렸는지 사용자가 판단할 수 있습니다.</b>
+    &lsquo;이 지표를 산출하는 조사라서&rsquo;라고 나왔는데 그 조사가 그 지표를 안 낸다면, 그 관계 한 줄만 고치면 됩니다.
+    블랙박스 순위와 달리 고칠 지점이 특정됩니다.</p>
+  </div>
+
+  <h2>시연 전 점검</h2>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>항목</th><th>확인</th></tr></thead>
+      <tbody>
+        <tr><td>Vercel 배포본이 열리는가 (환경변수 3종 설정)</td><td class="num">☐</td></tr>
+        <tr><td>OPENAI_API_KEY 가 서버 환경변수로만 들어가 있는가</td><td class="num">☐</td></tr>
+        <tr><td>시연 질문 3개를 미리 한 번씩 눌러 응답 캐시를 데워 뒀는가</td><td class="num">☐</td></tr>
+        <tr><td>네트워크가 끊겼을 때 보여 줄 이 목업 문서를 열어 뒀는가</td><td class="num">☐</td></tr>
+        <tr><td>MCP 서버가 붙어 있는가 (도구 3종 목록 확인)</td><td class="num">☐</td></tr>
+        <tr><td>화면 확대 배율을 125~150%로 올려 뒀는가</td><td class="num">☐</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="foot">
+    생애나침반 · 통계나침반 프로젝트 &nbsp;│&nbsp; 이 문서는 외부 리소스를 쓰지 않는 단일 HTML 파일입니다. 내부망에서도 그대로 열립니다.
+  </p>
+
+</div>
+</body>
+</html>

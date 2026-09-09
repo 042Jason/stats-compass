@@ -1,0 +1,31 @@
+node_modules/
+dist/
+.next/
+.DS_Store
+*.log
+
+# ── 비밀값 ────────────────────────────────────────────────
+# .env* 를 통째로 막고 예시 파일만 예외로 둡니다.
+# 개별 이름을 나열하면 새 파일이 생길 때마다 빠뜨립니다.
+.env
+.env.*
+!.env.example
+
+# 토큰·키를 적어 둔 메모. 실수로 올라가면 바로 폐기해야 합니다.
+*토큰*
+*token*.txt
+*.pem
+*.key
+!package-lock.json
+
+# ── 산출물·중복 사본 ──────────────────────────────────────
+*.zip
+stats-compass-web.zip
+
+# ── 시드 중간 산출물 ──────────────────────────────────────
+# 용량이 크고 재생성 가능합니다. 다만 13_*.json 은 <입력>이라 남깁니다.
+# 이게 없으면 12_buildOntology 가 생애주기 레이어를 통째로 건너뜁니다.
+data/seed/*.json
+!data/seed/.gitkeep
+!data/seed/13_*.json
+!data/seed/16_scenarios.json

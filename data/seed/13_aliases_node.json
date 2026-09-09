@@ -1,0 +1,1658 @@
+{
+  "aliases": [
+    {
+      "class": "Indicator",
+      "key": "total-fertility-rate",
+      "alt": [
+        "출산율",
+        "TFR"
+      ],
+      "hidden": [
+        "애 몇 명 낳나",
+        "저출산 지표",
+        "저출생",
+        "아이 몇 명 낳나",
+        "출산율 0.7"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "births",
+      "alt": [
+        "출생건수",
+        "신생아 수"
+      ],
+      "hidden": [
+        "애가 몇 명 태어나나",
+        "작년에 몇 명 태어났나",
+        "신생아",
+        "출생 감소"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "parental-leave-take-up-rate",
+      "alt": [
+        "육아휴직률"
+      ],
+      "hidden": [
+        "육아휴직 얼마나 쓰나",
+        "아빠 육아휴직",
+        "남성 육아휴직 비율",
+        "일가정 양립",
+        "휴직하고 애 보나"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "cumulative-birth-rate",
+      "alt": [
+        "세대별 출산 경험 비율",
+        "코호트 출산율"
+      ],
+      "hidden": [
+        "몇 살에 애를 낳나",
+        "출산 미루기",
+        "세대별 출산",
+        "만혼 출산"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "private-education-expenditure",
+      "alt": [
+        "사교육비"
+      ],
+      "hidden": [
+        "학원비",
+        "과외비",
+        "한 달 학원비 얼마",
+        "교육비 부담",
+        "학원에 얼마 쓰나"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "private-education-participation-rate",
+      "alt": [
+        "사교육 참여"
+      ],
+      "hidden": [
+        "학원 다니는 학생 비율",
+        "몇 %가 학원 다니나",
+        "과외 받는 비율",
+        "학원 안 다니는 아이"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "household-education-expenditure",
+      "alt": [
+        "교육비 지출액"
+      ],
+      "hidden": [
+        "집에서 교육비 얼마 쓰나",
+        "가계 교육비",
+        "자녀 교육비 부담"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "educational-attainment",
+      "alt": [
+        "학력별 인구",
+        "교육수준"
+      ],
+      "hidden": [
+        "대졸자 비율",
+        "고졸 인구",
+        "학력 분포",
+        "대학 나온 사람 얼마나"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "unemployment-rate",
+      "alt": [
+        "실업 지표"
+      ],
+      "hidden": [
+        "백수 몇 명",
+        "일자리 없는 사람",
+        "취업이 안 된다",
+        "실업자 수",
+        "체감 실업"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "first-job-transition-period",
+      "alt": [
+        "졸업 후 첫 일자리까지 걸린 기간"
+      ],
+      "hidden": [
+        "취업까지 얼마나 걸리나",
+        "취준 기간",
+        "졸업하고 몇 달",
+        "첫 직장 잡는 데 걸리는 시간"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "jobless-population",
+      "alt": [
+        "일자리 미등록자"
+      ],
+      "hidden": [
+        "백수",
+        "놀고 있는 청년",
+        "쉬었음",
+        "구직 안 하는 사람",
+        "니트"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "migration-population",
+      "alt": [
+        "인구이동자 수",
+        "거주지 이동"
+      ],
+      "hidden": [
+        "이사 몇 명 갔나",
+        "수도권 몰림",
+        "지방 떠나는 사람",
+        "서울로 올라오는 사람",
+        "전입자 수"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "employment-rate",
+      "alt": [
+        "취업자 비중"
+      ],
+      "hidden": [
+        "일하는 사람 비율",
+        "몇 %가 일하나",
+        "여성 고용",
+        "고용 사정 어떤가"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "employed-persons",
+      "alt": [
+        "취업자"
+      ],
+      "hidden": [
+        "일하는 사람 수",
+        "몇 명이 일하나",
+        "취업자 증감",
+        "고용 늘었나"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "wage-jobs",
+      "alt": [
+        "임금근로일자리"
+      ],
+      "hidden": [
+        "일자리 몇 개",
+        "월급 받는 자리",
+        "일자리 수 통계",
+        "일자리 늘었나"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "job-movers",
+      "alt": [
+        "일자리 이동"
+      ],
+      "hidden": [
+        "이직자 수",
+        "회사 옮긴 사람",
+        "이직 얼마나 하나",
+        "직장 갈아타기"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "average-tenure",
+      "alt": [
+        "근속기간",
+        "근속연수"
+      ],
+      "hidden": [
+        "한 회사 몇 년 다니나",
+        "오래 다니나",
+        "직장 다닌 기간",
+        "고용 안정성"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "wage-worker-income",
+      "alt": [
+        "근로소득",
+        "평균소득"
+      ],
+      "hidden": [
+        "월급 얼마",
+        "평균 연봉",
+        "직장인 월급",
+        "월평균 임금",
+        "중위 월급"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "social-insurance-coverage",
+      "alt": [
+        "4대보험 가입률"
+      ],
+      "hidden": [
+        "4대보험",
+        "고용보험 들었나",
+        "보험 안 되는 일자리",
+        "사회보험 사각지대"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "weekly-working-hours",
+      "alt": [
+        "평균 근로시간",
+        "주당 근로시간"
+      ],
+      "hidden": [
+        "몇 시간 일하나",
+        "주 52시간",
+        "장시간 노동",
+        "일하는 시간 줄었나"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "marriages",
+      "alt": [
+        "혼인신고 건수",
+        "결혼 건수"
+      ],
+      "hidden": [
+        "결혼 몇 쌍",
+        "결혼 줄었나",
+        "혼인 감소",
+        "작년 결혼"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "divorces",
+      "alt": [
+        "이혼신고 건수"
+      ],
+      "hidden": [
+        "이혼 몇 건",
+        "황혼이혼",
+        "이혼율",
+        "갈라선 부부"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "mean-age-at-first-marriage",
+      "alt": [
+        "평균 혼인연령",
+        "초혼 나이"
+      ],
+      "hidden": [
+        "몇 살에 결혼하나",
+        "만혼",
+        "결혼이 늦어짐",
+        "늦게 결혼"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "dual-income-household-share",
+      "alt": [
+        "맞벌이 비율"
+      ],
+      "hidden": [
+        "맞벌이",
+        "둘 다 일하는 집",
+        "외벌이",
+        "부부 둘 다 직장"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "one-person-households",
+      "alt": [
+        "1인가구",
+        "혼자 사는 가구"
+      ],
+      "hidden": [
+        "나혼자 산다",
+        "독거",
+        "혼자 사는 사람 몇 명",
+        "자취",
+        "독거노인"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "home-ownership-rate",
+      "alt": [
+        "주택소유 비율",
+        "자가보유율"
+      ],
+      "hidden": [
+        "내 집 있는 비율",
+        "집 가진 사람",
+        "무주택",
+        "자가 비율",
+        "몇 %가 집이 있나"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "housing-stock",
+      "alt": [
+        "주택재고"
+      ],
+      "hidden": [
+        "집이 몇 채",
+        "주택 공급",
+        "아파트 수",
+        "전국 주택"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "tenure-type",
+      "alt": [
+        "자가·전세·월세 가구",
+        "점유형태"
+      ],
+      "hidden": [
+        "전세",
+        "월세",
+        "세입자",
+        "전월세 비중",
+        "남의 집 사는"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "household-debt",
+      "alt": [
+        "대출잔액",
+        "금융부채",
+        "가계부채"
+      ],
+      "hidden": [
+        "빚",
+        "대출 얼마",
+        "주담대",
+        "가계빚",
+        "빚 갚느라"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "housing-asset-value",
+      "alt": [
+        "주택 공시가격 기준 자산가액"
+      ],
+      "hidden": [
+        "집값 자산",
+        "부동산 자산",
+        "가진 집 값어치",
+        "자산 격차"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "net-migration-rate",
+      "alt": [
+        "순유입률",
+        "순유출률"
+      ],
+      "hidden": [
+        "인구가 빠져나간다",
+        "지방소멸",
+        "순유입",
+        "떠나는 지역",
+        "들어오는 사람이 더 많나"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "household-income",
+      "alt": [
+        "가구당 소득",
+        "경상소득"
+      ],
+      "hidden": [
+        "우리집 소득",
+        "한 달에 얼마 버나",
+        "소득 얼마",
+        "가구 벌이",
+        "평균 가구 수입"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "household-consumption-expenditure",
+      "alt": [
+        "소비지출"
+      ],
+      "hidden": [
+        "한 달 생활비",
+        "가계 지출",
+        "돈 얼마 쓰나",
+        "식비 얼마",
+        "생활비"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "gini-coefficient",
+      "alt": [
+        "Gini"
+      ],
+      "hidden": [
+        "소득 불평등",
+        "빈부격차",
+        "분배 지표",
+        "격차 지수"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "relative-poverty-rate",
+      "alt": [
+        "빈곤율"
+      ],
+      "hidden": [
+        "가난한 사람 비율",
+        "노인 빈곤",
+        "저소득층 비중",
+        "중위소득 50%",
+        "먹고살기 힘든"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "income-mobility",
+      "alt": [
+        "소득분위 이동비율"
+      ],
+      "hidden": [
+        "계층 이동",
+        "개천에서 용",
+        "사다리",
+        "소득이 올라갈 수 있나",
+        "상향 이동"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "lifecycle-deficit",
+      "alt": [
+        "소비-노동소득 차",
+        "NTA"
+      ],
+      "hidden": [
+        "나이별 적자",
+        "언제부터 흑자",
+        "몇 살에 흑자 전환",
+        "버는 것보다 쓰는 것"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "monthly-pension-benefit",
+      "alt": [
+        "연금 수령액"
+      ],
+      "hidden": [
+        "연금 얼마 받나",
+        "국민연금 얼마",
+        "한 달 연금",
+        "노후 연금액"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "pension-enrollment-rate",
+      "alt": [
+        "연금 가입자 비율"
+      ],
+      "hidden": [
+        "국민연금 가입",
+        "연금 들었나",
+        "연금 사각지대",
+        "가입 안 한 사람"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "retirement-preparation",
+      "alt": [
+        "노후준비율",
+        "노후준비 방법"
+      ],
+      "hidden": [
+        "노후 준비 하고 있나",
+        "노후 어떻게 준비",
+        "준비 안 된 노후",
+        "노후 대비 저축"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "retirement-pension-coverage",
+      "alt": [
+        "퇴직연금 도입률",
+        "퇴직연금 가입률"
+      ],
+      "hidden": [
+        "퇴직연금",
+        "퇴직금",
+        "DB형 DC형",
+        "IRP",
+        "회사에 퇴직연금 있나"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "life-expectancy",
+      "alt": [
+        "평균수명",
+        "0세 기대여명"
+      ],
+      "hidden": [
+        "몇 살까지 사나",
+        "수명",
+        "오래 사나",
+        "기대여명"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "deaths",
+      "alt": [
+        "사망건수"
+      ],
+      "hidden": [
+        "몇 명이 죽나",
+        "사망 늘었나",
+        "작년 사망자",
+        "인구 자연감소"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "cause-of-death-rate",
+      "alt": [
+        "사인별 사망률",
+        "연령표준화 사망률"
+      ],
+      "hidden": [
+        "사망원인 1위",
+        "암 사망",
+        "자살률",
+        "무엇 때문에 죽나",
+        "심장질환 사망"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "elderly-population",
+      "alt": [
+        "65세 이상 인구",
+        "노인 인구"
+      ],
+      "hidden": [
+        "노인 몇 명",
+        "고령화",
+        "초고령사회",
+        "어르신 인구",
+        "노인 비중"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "old-age-dependency-ratio",
+      "alt": [
+        "부양비",
+        "노령화지수"
+      ],
+      "hidden": [
+        "젊은 사람 몇 명이 노인을 부양",
+        "부양 부담",
+        "세대 부담",
+        "노인 한 명당"
+      ]
+    },
+    {
+      "class": "Indicator",
+      "key": "unpaid-household-work",
+      "alt": [
+        "가사노동시간",
+        "가사노동 가치"
+      ],
+      "hidden": [
+        "집안일",
+        "살림 값어치",
+        "돌봄노동",
+        "전업주부 노동",
+        "집안일 몇 시간"
+      ]
+    },
+    {
+      "class": "LifeStage",
+      "key": "birth",
+      "alt": [
+        "영유아",
+        "출산기"
+      ],
+      "hidden": [
+        "애 낳고",
+        "신생아 시기",
+        "어린이집",
+        "육아",
+        "아기 키울 때",
+        "출산 직후",
+        "젖먹이",
+        "돌 지나서"
+      ]
+    },
+    {
+      "class": "LifeStage",
+      "key": "school",
+      "alt": [
+        "학령기",
+        "취학기"
+      ],
+      "hidden": [
+        "학교 다닐 때",
+        "초등학교",
+        "중고등학교",
+        "학원",
+        "입시",
+        "공부할 때",
+        "학생 시절",
+        "사교육",
+        "수능"
+      ]
+    },
+    {
+      "class": "LifeStage",
+      "key": "youth",
+      "alt": [
+        "청년기",
+        "사회초년생"
+      ],
+      "hidden": [
+        "첫 직장",
+        "취준",
+        "졸업 후",
+        "이십대",
+        "20대",
+        "사회에 나올 때",
+        "자립",
+        "독립할 때",
+        "스펙",
+        "알바"
+      ]
+    },
+    {
+      "class": "LifeStage",
+      "key": "employment",
+      "alt": [
+        "근로기",
+        "직장생활"
+      ],
+      "hidden": [
+        "회사 다닐 때",
+        "일할 때",
+        "월급 받을 때",
+        "직장인",
+        "경력",
+        "이직",
+        "한창 일할 나이",
+        "돈 벌 때"
+      ]
+    },
+    {
+      "class": "LifeStage",
+      "key": "marriage",
+      "alt": [
+        "혼인",
+        "가구형성"
+      ],
+      "hidden": [
+        "신혼",
+        "분가",
+        "결혼하면",
+        "살림 차릴 때",
+        "예비부부",
+        "독립 가구",
+        "혼수",
+        "가정 꾸리기",
+        "웨딩"
+      ]
+    },
+    {
+      "class": "LifeStage",
+      "key": "housing",
+      "alt": [
+        "내집마련",
+        "자산형성"
+      ],
+      "hidden": [
+        "집 살 때",
+        "전세 구할 때",
+        "월세 살 때",
+        "이사",
+        "집 사려고 대출",
+        "집값",
+        "목돈 모을 때",
+        "청약",
+        "부동산 살 때"
+      ]
+    },
+    {
+      "class": "LifeStage",
+      "key": "midlife",
+      "alt": [
+        "중년",
+        "장년기"
+      ],
+      "hidden": [
+        "사십대",
+        "오십대",
+        "40대",
+        "50대",
+        "한창 벌 때",
+        "애 키우면서",
+        "교육비 많이 들 때",
+        "가장 노릇",
+        "소득 정점"
+      ]
+    },
+    {
+      "class": "LifeStage",
+      "key": "retirement",
+      "alt": [
+        "노후",
+        "은퇴기"
+      ],
+      "hidden": [
+        "정년",
+        "은퇴 후",
+        "황혼",
+        "노후 생활비",
+        "연금 받을 때",
+        "퇴직",
+        "제2의 인생",
+        "재취업",
+        "육십대",
+        "노후 대비"
+      ]
+    },
+    {
+      "class": "LifeStage",
+      "key": "aging",
+      "alt": [
+        "노년기",
+        "고령기"
+      ],
+      "hidden": [
+        "나이 들면",
+        "어르신",
+        "요양",
+        "간병",
+        "돌봄",
+        "임종",
+        "장수",
+        "병원 다닐 때",
+        "말년",
+        "죽음"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "survey-design",
+      "alt": [
+        "표본설계",
+        "조사방법론"
+      ],
+      "hidden": [
+        "표본이 뭔가",
+        "오차 범위",
+        "믿을 만한 수치인가",
+        "공표 절차",
+        "몇 명이나 조사했나"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "frame-and-unit",
+      "alt": [
+        "조사대상",
+        "행정자료 활용"
+      ],
+      "hidden": [
+        "누구를 세는가",
+        "무엇을 단위로 세나",
+        "명부",
+        "행정자료 연계",
+        "조사 대상 범위"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "index-and-price",
+      "alt": [
+        "물가지수",
+        "지수 작성"
+      ],
+      "hidden": [
+        "물가",
+        "기준연도 100",
+        "실질이랑 명목",
+        "가격이 올랐나",
+        "지수는 어떻게 만드나"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "cycle-and-seasonality",
+      "alt": [
+        "경기순환",
+        "계절변동"
+      ],
+      "hidden": [
+        "계절 요인",
+        "전월 대비",
+        "경기 좋아졌나",
+        "경기 국면",
+        "명절 효과"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "population-and-vital",
+      "alt": [
+        "인구동태",
+        "인구구조"
+      ],
+      "hidden": [
+        "출생 사망",
+        "인구 줄어드나",
+        "생명표",
+        "장래인구",
+        "고령화 구조"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "migration",
+      "alt": [
+        "인구이동",
+        "이주"
+      ],
+      "hidden": [
+        "전입 전출",
+        "수도권 집중",
+        "귀농귀촌",
+        "해외 이주",
+        "지방 떠나기",
+        "국제이동"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "household-and-living",
+      "alt": [
+        "가구 통계",
+        "생활 실태"
+      ],
+      "hidden": [
+        "가구 개념",
+        "누가 가구주인가",
+        "집 형태",
+        "생활시간",
+        "삶의 만족도",
+        "거처"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "employment-and-jobs",
+      "alt": [
+        "고용 통계",
+        "노동시장"
+      ],
+      "hidden": [
+        "취업 실업",
+        "일자리 늘고 줄고",
+        "종사상지위",
+        "임금 수준",
+        "자영업"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "income-and-expenditure",
+      "alt": [
+        "소득분배",
+        "가계수지"
+      ],
+      "hidden": [
+        "소득 지출",
+        "분배가 나빠졌나",
+        "소득 격차",
+        "연금 소득",
+        "쓸 수 있는 돈"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "business-and-industry",
+      "alt": [
+        "기업통계",
+        "산업활동"
+      ],
+      "hidden": [
+        "사업체와 기업 차이",
+        "매출",
+        "생산 수주 판매",
+        "경기 지표",
+        "공장 통계"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "national-accounts",
+      "alt": [
+        "국민계정",
+        "SNA"
+      ],
+      "hidden": [
+        "GDP 만드는 틀",
+        "국부",
+        "부가가치 계산",
+        "제도부문",
+        "나라 살림 계산"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "agriculture-fishery",
+      "alt": [
+        "농어업",
+        "1차산업"
+      ],
+      "hidden": [
+        "농가 어가",
+        "농사",
+        "수산물",
+        "가축",
+        "농사 비용",
+        "임업"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "establishment",
+      "alt": [
+        "사업장",
+        "점포"
+      ],
+      "hidden": [
+        "공장 하나가 사업체인가",
+        "기업체랑 뭐가 달라",
+        "사업체 수",
+        "가게"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "real-price",
+      "alt": [
+        "불변금액",
+        "불변가격"
+      ],
+      "hidden": [
+        "물가 빼고",
+        "명목이랑 뭐가 달라",
+        "실질소득",
+        "진짜 늘어난 건가"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "nominal-price",
+      "alt": [
+        "경상금액",
+        "경상가격"
+      ],
+      "hidden": [
+        "물가 안 뺀",
+        "명목 실질 차이",
+        "그때 가격 그대로",
+        "숫자만 오른 건가"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "seasonal-adjustment",
+      "alt": [
+        "계절조정지수"
+      ],
+      "hidden": [
+        "계절 보정",
+        "원계열이랑 뭐가 달라",
+        "계절 효과 제거",
+        "전월비 볼 때",
+        "명절 때문에 튀는"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "enterprise",
+      "alt": [
+        "기업",
+        "회사"
+      ],
+      "hidden": [
+        "사업체랑 뭐가 달라",
+        "법인",
+        "본사 지점 합쳐서",
+        "기업 수"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "non-housing-quarters",
+      "alt": [
+        "비주택 거처"
+      ],
+      "hidden": [
+        "오피스텔",
+        "고시원",
+        "기숙사",
+        "판잣집",
+        "집이 아닌 곳에 사는"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "complete-enumeration",
+      "alt": [
+        "총조사",
+        "센서스"
+      ],
+      "hidden": [
+        "다 조사하는",
+        "표본조사랑 뭐가 달라",
+        "빠짐없이 세는",
+        "5년마다 다 세는"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "orders-received",
+      "alt": [
+        "계약액",
+        "건설수주액"
+      ],
+      "hidden": [
+        "주문 받은 금액",
+        "기성액이랑 뭐가 달라",
+        "앞으로 지을 물량",
+        "공사 계약"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "base-year",
+      "alt": [
+        "기준년",
+        "기준시점"
+      ],
+      "hidden": [
+        "100으로 놓는 해",
+        "기준연도 개편",
+        "지수 기준이 바뀜",
+        "옛날 수치랑 안 맞는 이유"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "mid-year-population",
+      "alt": [],
+      "hidden": [
+        "7월 1일 인구",
+        "비율 계산 분모",
+        "주민등록인구랑 다른",
+        "연말 인구랑 뭐가 달라"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "unhulled-grain",
+      "alt": [],
+      "hidden": [
+        "껍질 있는 알곡",
+        "벼 무게",
+        "정곡이랑 뭐가 달라",
+        "도정 전"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "milled-grain",
+      "alt": [],
+      "hidden": [
+        "도정한 쌀",
+        "백미 기준",
+        "조곡이랑 뭐가 달라",
+        "먹을 수 있는 상태"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "original-index",
+      "alt": [
+        "원계열"
+      ],
+      "hidden": [
+        "계절조정 안 한",
+        "조사한 그대로",
+        "계절조정이랑 뭐가 달라",
+        "전년동기비 볼 때"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "fishery-household",
+      "alt": [],
+      "hidden": [
+        "어업하는 집",
+        "어민",
+        "바닷가 산다고 어가인가",
+        "수산물 파는 가구"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "forestry-household",
+      "alt": [],
+      "hidden": [
+        "임업하는 집",
+        "산 가진 집",
+        "산림 소유 가구",
+        "임산물 파는 가구"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "farm-household",
+      "alt": [],
+      "hidden": [
+        "농사짓는 집",
+        "농민",
+        "텃밭도 농가인가",
+        "농사 가구"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "part-time-farming",
+      "alt": [
+        "겸업농가"
+      ],
+      "hidden": [
+        "농사 말고 딴 일",
+        "1종 2종",
+        "전업이랑 뭐가 달라",
+        "부업"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "full-time-farming",
+      "alt": [
+        "전업농가"
+      ],
+      "hidden": [
+        "농사만 하는",
+        "겸업이랑 뭐가 달라",
+        "본업이 농사"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "management-type",
+      "alt": [
+        "영농형태"
+      ],
+      "hidden": [
+        "주로 뭘 키우나",
+        "주된 벌이",
+        "품목 구분",
+        "무슨 농사 짓나"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "dwelling",
+      "alt": [],
+      "hidden": [
+        "집의 요건",
+        "거처랑 뭐가 달라",
+        "방과 부엌",
+        "독립 출입구",
+        "집으로 치는 기준"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "residential-floor-area",
+      "alt": [],
+      "hidden": [
+        "집 넓이",
+        "면적 계산",
+        "창고 빼고",
+        "실제 사는 면적",
+        "평수"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "household",
+      "alt": [],
+      "hidden": [
+        "세대랑 뭐가 달라",
+        "같이 밥 먹는 사람",
+        "가족이랑 다른가",
+        "살림 단위"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "household-head",
+      "alt": [],
+      "hidden": [
+        "세대주랑 뭐가 달라",
+        "집안 대표",
+        "가장",
+        "누가 가구주로 잡히나"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "relative-standard-error",
+      "alt": [
+        "RSE"
+      ],
+      "hidden": [
+        "오차 크기",
+        "이 수치 믿을 만한가",
+        "표본오차",
+        "세부 수치 주의"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "survey-cycle",
+      "alt": [
+        "반기 조사",
+        "순기 조사"
+      ],
+      "hidden": [
+        "얼마나 자주 하나",
+        "매년 하나",
+        "5년마다",
+        "월간 분기"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "disposable-income",
+      "alt": [],
+      "hidden": [
+        "세금 빼고 남는 돈",
+        "실제 쓸 수 있는 소득",
+        "실수령",
+        "경상소득이랑 뭐가 달라"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "income-quintile",
+      "alt": [
+        "소득 5분위"
+      ],
+      "hidden": [
+        "1분위 5분위",
+        "상위 20%",
+        "하위 20%",
+        "소득 등급",
+        "분위별"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "sales",
+      "alt": [],
+      "hidden": [
+        "팔아서 번 돈",
+        "매출이 곧 이익인가",
+        "영업이익이랑 다름",
+        "회사 매출"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "institutional-sector",
+      "alt": [],
+      "hidden": [
+        "가계 기업 정부 구분",
+        "누가 자산을 가지고 있나",
+        "경제주체 구분",
+        "비금융법인"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "production-value",
+      "alt": [
+        "생산금액"
+      ],
+      "hidden": [
+        "만들어낸 금액",
+        "생산량이랑 다름",
+        "값 오르면 늘어나는",
+        "출하액"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "value-added",
+      "alt": [],
+      "hidden": [
+        "새로 만든 가치",
+        "중간재 빼고",
+        "매출액이랑 뭐가 달라",
+        "GDP 구성"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "register-based-frame",
+      "alt": [
+        "등록기반 조사"
+      ],
+      "hidden": [
+        "행정자료로 만든 명부",
+        "사업자등록 기준",
+        "현장 조사 안 하고",
+        "등록센서스"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "construction-completed",
+      "alt": [
+        "공사액",
+        "기성액"
+      ],
+      "hidden": [
+        "실제 지은 금액",
+        "수주액이랑 뭐가 달라",
+        "시공 실적",
+        "공사 진행분"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "median",
+      "alt": [
+        "중위수",
+        "중위값"
+      ],
+      "hidden": [
+        "평균이랑 뭐가 달라",
+        "한가운데 값",
+        "중위소득",
+        "체감에 가까운 값"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "management-cost",
+      "alt": [
+        "농업경영비"
+      ],
+      "hidden": [
+        "농사에 든 돈",
+        "생산비랑 다른",
+        "실제 나간 비용",
+        "가족 인건비는 빠짐"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "agricultural-income",
+      "alt": [],
+      "hidden": [
+        "농사로 번 돈",
+        "농가소득이랑 뭐가 달라",
+        "수입에서 비용 뺀",
+        "농사 수익"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "total-fertility-rate",
+      "alt": [],
+      "hidden": [
+        "실제 낳은 수인가",
+        "가상의 값",
+        "연령별 출산율 합",
+        "출산율 계산법"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "crude-death-rate",
+      "alt": [],
+      "hidden": [
+        "인구 대비 사망",
+        "고령화되면 올라가는",
+        "연령표준화랑 뭐가 달라",
+        "10만 명당 사망"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "report-based-tabulation",
+      "alt": [
+        "신고일 기준"
+      ],
+      "hidden": [
+        "발생일이랑 뭐가 달라",
+        "신고해야 잡히는",
+        "신고 지연",
+        "실제 일어난 날과 차이"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "job",
+      "alt": [],
+      "hidden": [
+        "취업자랑 뭐가 달라",
+        "사람 수랑 다른",
+        "일자리 세는 법",
+        "두 곳에서 일하면"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "replacement-job",
+      "alt": [],
+      "hidden": [
+        "앞사람 나가고 채운",
+        "자리는 그대로",
+        "사람만 바뀐 일자리"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "continuing-job",
+      "alt": [],
+      "hidden": [
+        "계속 다니는 자리",
+        "같은 사람 같은 자리",
+        "유지된 일자리"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "new-job",
+      "alt": [],
+      "hidden": [
+        "새로 생긴 자리",
+        "창업으로 생긴",
+        "없던 자리",
+        "일자리 창출"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "destroyed-job",
+      "alt": [],
+      "hidden": [
+        "없어진 자리",
+        "폐업으로 사라진",
+        "일자리 감소",
+        "문 닫아서"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "registered-employed",
+      "alt": [],
+      "hidden": [
+        "행정자료로 잡힌 취업자",
+        "4대보험 기준",
+        "취업자랑 어떻게 다른가",
+        "무급가족종사자 빠짐"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "main-job",
+      "alt": [],
+      "hidden": [
+        "여러 곳에서 일하면",
+        "대표 일자리",
+        "부업 빼고",
+        "소득 합친 게 아님"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "net-migration",
+      "alt": [],
+      "hidden": [
+        "전입 빼기 전출",
+        "순유입 순유출",
+        "인구 증감이랑 다름",
+        "들어온 사람 나간 사람"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "planted-area",
+      "alt": [],
+      "hidden": [
+        "심은 넓이",
+        "경지면적이랑 뭐가 달라",
+        "이모작",
+        "작물 심은 땅"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "service-production-index",
+      "alt": [],
+      "hidden": [
+        "서비스업 경기",
+        "업종별 생산",
+        "서비스 생산 늘었나",
+        "가중치 큰 업종"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "goods-classification",
+      "alt": [
+        "내구재",
+        "비내구재",
+        "자본재",
+        "중간재"
+      ],
+      "hidden": [
+        "쓰임새별 구분",
+        "업종 분류랑 다름",
+        "최종재 중간재",
+        "소비재 구분"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "mining-manufacturing-production-index",
+      "alt": [],
+      "hidden": [
+        "공장 생산 지수",
+        "제조업 경기",
+        "생산 늘었나",
+        "경기 판단 지표"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "life-cycle-deficit",
+      "alt": [],
+      "hidden": [
+        "나라 재정적자랑 다름",
+        "소비 빼기 노동소득",
+        "적자 흑자 나이",
+        "NTA 개념"
+      ]
+    },
+    {
+      "class": "Concept",
+      "key": "age-profile",
+      "alt": [],
+      "hidden": [
+        "나이별로 나눈 값",
+        "단면 자료",
+        "같은 사람 추적이 아님",
+        "연령별 배분"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "stats-compass",
+  "version": "0.1.0",
+  "description": "통계나침반 - 국가승인통계 큐레이션 페이지",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "seed:tables": "tsx src/seed/01_fetchTables.ts",
+    "seed:meta": "tsx src/seed/02_fetchMeta.ts",
+    "seed:build": "tsx src/seed/03_buildStatistics.ts",
+    "seed:upsert": "tsx src/seed/04_upsertSupabase.ts",
+    "seed:periods": "tsx src/seed/05_fetchPeriods.ts",
+    "seed:regroup": "tsx src/seed/06_regroup.ts",
+    "seed:audit": "tsx src/seed/07_audit.ts",
+    "seed:sets": "tsx src/seed/08_curatedSets.ts",
+    "seed:cleanup": "tsx src/seed/09_cleanupStubs.ts",
+    "seed:ai-export": "tsx src/seed/10_exportForAI.ts",
+    "seed:ai-apply": "tsx src/seed/11_applyAiContent.ts",
+    "seed:all": "pnpm seed:tables && pnpm seed:meta && pnpm seed:build && pnpm seed:upsert"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "dotenv": "^16.4.5",
+    "p-limit": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
