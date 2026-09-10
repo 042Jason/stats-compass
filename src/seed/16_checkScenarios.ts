@@ -17,6 +17,8 @@ import { readFileSync } from 'node:fs';
 import { supabase } from '../clients/supabase.js';
 import { log } from '../utils/logger.js';
 
+import { titleKeywords } from '../../stats-compass-web/src/lib/slots.js';
+
 const FILE = 'data/seed/16_scenarios.json';
 const VERBOSE = process.argv.includes('--verbose');
 const MODEL = 'text-embedding-3-small';
@@ -31,6 +33,22 @@ interface Scenario {
   expectTables: string[];
   expectTableOwner: Record<string, string>;
   expectCautionWith: string[];
+  /**
+   * 나오면 안 되는 조사.
+   *
+   * 조사 단위 적중률만 보면 100% 인데 결과는 나쁠 수 있습니다. 실제로 그랬습니다 —
+   * 은퇴 자금 질문에 초중고 사교육비조사가, 집 살 때 빚 질문에 빈집·장애인가구 표가
+   * 올라왔는데도 점수는 14/14 였습니다. 기대한 것이 있는지만 세고 <없어야 할 것>은
+   * 세지 않았기 때문입니다. 여기 적은 조사가 결과에 있으면 감점합니다.
+   */
+  rejectSurveys?: string[];
+  /**
+   * 결과 통계표 제목에 반드시 들어 있어야 할 낱말.
+   *
+   * "집 살 때 빚" 질문에 대출 표가 한 건도 없어도 조사 단위 적중률은 100% 였습니다.
+   * 조사만 맞히고 정작 필요한 표를 못 주면 쓸모가 없습니다. 제목을 직접 봅니다.
+   */
+  expectTableWords?: string[];
 }
 
 async function embed(text: string, apiKey: string): Promise<number[]> {
@@ -53,6 +71,7 @@ async function main(): Promise<void> {
   const { scenarios }: { scenarios: Scenario[] } = JSON.parse(readFileSync(FILE, 'utf-8'));
   let totalHit = 0;
   let totalWant = 0;
+  let totalBad = 0;
 
   for (const sc of scenarios) {
     log.info('');
@@ -103,6 +122,8 @@ async function main(): Promise<void> {
       p_seed_k: 16,
       p_limit: 8,
       p_want_region: sc.slots.regionText != null,
+      // 웹앱과 같은 사전을 써야 검증이 화면과 같은 결과를 봅니다.
+      p_keywords: titleKeywords(sc.query),
     });
     // Supabase 오류는 Error 인스턴스가 아니라 평범한 객체입니다.
     // 그대로 throw 하면 String() 이 [object Object] 를 내놓아 원인을 못 봅니다.
@@ -165,14 +186,47 @@ async function main(): Promise<void> {
       log.info(`   통계용어: ${(r.concepts ?? []).map((c) => c.label).slice(0, 8).join(', ')}`);
     }
 
+    /* ④-0 결과 표 제목에 꼭 있어야 할 낱말 */
+    const words = sc.expectTableWords ?? [];
+    if (words.length > 0) {
+      const titles = (r.tables ?? []).map((t) => t.label ?? '');
+      const hitW = words.filter((w) => titles.some((t) => t.includes(w)));
+      const missW = words.filter((w) => !titles.some((t) => t.includes(w)));
+      log.info(
+        `   제목 낱말 ${hitW.length}/${words.length}` +
+          (missW.length ? `  ✗ 없음: ${missW.join(', ')}` : '  ✓'),
+      );
+      if (missW.length > 0) {
+        for (const w of missW) log.warn(`     "${w}" 이(가) 든 통계표가 결과에 없습니다`);
+        totalBad += missW.length;
+      }
+    }
+
+    /* ④ 나오면 안 되는 조사 — 점수만 높고 결과는 나쁜 상태를 잡아냅니다 */
+    const reject = sc.rejectSurveys ?? [];
+    const bad = reject.filter((x) => gotSurveys.includes(x));
+    if (reject.length > 0) {
+      log.info(
+        `   금지 조사 ${bad.length}/${reject.length} 걸림` +
+          (bad.length ? `  ✗ ${bad.join(', ')}` : '  ✓ 없음'),
+      );
+    }
+    totalBad += bad.length;
+
     totalHit += hitS.length + hitT.length;
     totalWant += sc.expectSurveys.length + sc.expectTables.length;
   }
 
   log.info('');
   log.ok(`종합 적중 ${totalHit}/${totalWant} (${pct(totalHit, totalWant)}%)`);
+  if (totalBad > 0) {
+    log.err(`나오면 안 되는 조사 ${totalBad}건이 결과에 있습니다 — 적중률과 별개로 실패입니다.`);
+  }
   if (pct(totalHit, totalWant) < 70) {
     log.warn('70% 미만입니다. 별칭 사전이나 지표 매핑을 손봐야 합니다.');
+  }
+  if (pct(totalHit, totalWant) === 100 && totalBad === 0) {
+    log.ok('기대한 것은 다 나왔고, 나오면 안 될 것은 없습니다.');
   }
 }
 

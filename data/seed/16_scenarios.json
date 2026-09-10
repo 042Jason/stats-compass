@@ -30,6 +30,15 @@
         "가계동향조사",
         "주택총조사"
       ],
+      "rejectSurveys": [
+        "생활시간조사",
+        "초중고 사교육비조사",
+        "농가경제조사"
+      ],
+      "expectTableWords": [
+        "대출",
+        "주택"
+      ],
       "expectTableOwner": {
         "DT_1HDAAA01": "가계금융복지조사",
         "DT_1OH0518": "주택소유통계",
@@ -64,6 +73,11 @@
       "expectCautionWith": [
         "가계동향조사",
         "국민시간이전계정"
+      ],
+      "rejectSurveys": [
+        "초중고 사교육비조사",
+        "육아휴직통계",
+        "신혼부부통계"
       ],
       "expectTableOwner": {
         "DT_1PEN_002": "연금통계",

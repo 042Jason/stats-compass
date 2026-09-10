@@ -48,7 +48,15 @@ create or replace function public.graphrag_search(
   p_stages      text[]  default null,
   p_seed_k      int     default 16,
   p_limit       int     default 8,
-  p_want_region boolean default false   -- 질의에 지역 슬롯이 잡혔는가
+  p_want_region boolean default false,  -- 질의에 지역 슬롯이 잡혔는가
+  /*
+   * 질의에서 뽑은 <통계표 제목에 부딪힐 낱말>. lib/slots.ts 의 titleKeywords 가 만듭니다.
+   *
+   * 사람은 "빚" 이라 하고 표는 "대출잔액" 이라 씁니다. 글자가 안 겹치니 어휘 검색은
+   * 못 잡고, 벡터는 긴 제목과 짧은 낱말을 잘 못 맞춥니다. 그래서 "집 살 때 빚" 질문에
+   * 대출 통계표가 한 건도 안 붙었습니다. 이 배열이 그 통로입니다.
+   */
+  p_keywords    text[]  default null
 )
 returns jsonb
 language sql
@@ -78,7 +86,11 @@ lex as (
   where p_query is not null
     and length(p_query) >= 2
     and (m.content <% p_query or m.content % p_query)
-    and greatest(word_similarity(m.content, p_query), similarity(m.content, p_query)) >= 0.45
+    -- 임계값 0.45 는 너무 헐거웠습니다. "40대" 가 "50대 여성" 질의에 0.48 로 걸립니다
+    -- — 두 낱말의 트라이그램이 대부분 겹치기 때문입니다. 그렇게 들어온 씨앗이
+    -- 엉뚱한 조사를 끌고 옵니다(은퇴 질문에 초중고 사교육비조사).
+    -- 0.60 이면 "월급 얼마"(1.00) "집 살 때"(1.00) 같은 진짜 별칭은 그대로 살아남습니다.
+    and greatest(word_similarity(m.content, p_query), similarity(m.content, p_query)) >= 0.60
   order by 6 desc
   limit p_seed_k * 3
 ),
@@ -96,6 +108,15 @@ seeds as (
          f.entity_id, f.kind, f.field, f.content, f.sim, f.rrf, e.class_id, e.label
   from fused f
   join public.ontology_entities e on e.id = f.entity_id
+  -- 슬롯 노드는 씨앗에서 뺍니다.
+  --
+  -- Region·AgeBand·Sex·MaritalStatus 는 1홉으로 조사에 도달하지 못합니다.
+  -- AgeBand 는 stageForAge 로 LifeStage 까지만 가고, 거기서 끊깁니다(hop 은 1홉).
+  -- 그래서 랭킹에 한 푼도 기여하지 않으면서 씨앗 16칸 중 서너 칸을 먹습니다.
+  --
+  -- 이 값들은 이미 resolve_region / resolve_age 가 슬롯으로 해석해
+  -- p_stages 와 p_want_region 으로 반영합니다. 두 번 셀 이유가 없습니다.
+  where e.class_id not in ('Region', 'AgeBand', 'Sex', 'MaritalStatus')
   order by f.entity_id, f.rrf desc
 ),
 top_seeds as (
@@ -250,6 +271,27 @@ seed_tbl as (
   join public.ontology_relations r
     on r.target_id = s.entity_id and r.property_id = 'hasDistribution'
   join ranked rk on rk.node_id = r.source_id
+),
+-- 질의 낱말이 제목에 들어 있는 통계표.
+--
+-- "빚" → 키워드 {대출, 부채} → 제목에 그 말이 든 표를 랭킹된 조사 안에서 찾습니다.
+-- 조사 밖으로는 나가지 않습니다. 그래야 그래프가 고른 범위를 벗어나지 않습니다.
+-- 맞은 낱말 수가 많을수록, 최신 표일수록 앞에 옵니다.
+kw_tbl as (
+  select e.label, e.props, rk.label as survey_label,
+         (select count(*) from unnest(p_keywords) k where e.label ilike '%' || k || '%') as hits,
+         case
+           when e.props->>'latestPeriod' ~ '^[0-9]{4}'
+             then left(e.props->>'latestPeriod', 4)::int
+           else 0
+         end as yr
+  from ranked rk
+  join public.ontology_relations r
+    on r.source_id = rk.node_id and r.property_id = 'hasDistribution'
+  join public.ontology_entities e on e.id = r.target_id
+  where p_keywords is not null
+    and array_length(p_keywords, 1) > 0
+    and exists (select 1 from unnest(p_keywords) k where e.label ilike '%' || k || '%')
 )
 select jsonb_build_object(
 
@@ -374,6 +416,19 @@ select jsonb_build_object(
           ) sd
           where k <= 4
           union all
+          -- rn = 0  제목에 질의 낱말이 든 표. 조사당 2개까지.
+          --
+          -- 조사당 상한을 두지 않으면 "대출" 이 든 표만 열 개 올라와 다른 조사가 밀립니다.
+          select label, props, survey_label, 0 as rn, (1 + hits)::numeric as sc
+          from (
+            select label, props, survey_label, hits,
+                   row_number() over (
+                     partition by survey_label order by hits desc, yr desc
+                   ) as k
+            from kw_tbl
+          ) kt
+          where k <= 2
+          union all
           -- rn = 1  조사별 1등 표. 랭킹된 조사 전부가 여기서 한 자리씩 확보합니다.
           select label, props, survey_label, 1 as rn,
                  (survey_score * tsim)::numeric as sc
@@ -406,6 +461,10 @@ select jsonb_build_object(
 );
 $fn$;
 
-grant execute on function public.graphrag_search(vector, text, text[], int, int, boolean) to anon, authenticated;
+-- 인자가 하나 늘었으므로 옛 시그니처는 지웁니다. 남겨 두면 PostgREST 가 어느 쪽을
+-- 부를지 헷갈려 "could not choose the best candidate function" 이 납니다.
+drop function if exists public.graphrag_search(vector, text, text[], int, int, boolean);
+
+grant execute on function public.graphrag_search(vector, text, text[], int, int, boolean, text[]) to anon, authenticated;
 
 notify pgrst, 'reload schema';

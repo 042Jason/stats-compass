@@ -2,7 +2,7 @@ import "server-only";
 import { getSupabase, safe } from "@/lib/supabase/server";
 import { embedQuery } from "@/lib/embedding";
 import { EMPTY_RAG, toRagResult, type RagResult } from "@/lib/graphrag";
-import { EMPTY_SLOTS, parseSlots, type ResolvedSlots } from "@/lib/slots";
+import { EMPTY_SLOTS, parseSlots, titleKeywords, type ResolvedSlots } from "@/lib/slots";
 
 export interface StageRow {
   key: string;
@@ -123,6 +123,9 @@ export async function searchGraphRag(
       p_limit: limit,
       // 지역을 물었으면 시군구·시도 단위가 있는 조사에 가산점을 줍니다.
       p_want_region: slots.regions.length > 0,
+      // "빚" → {대출, 부채}. 표 제목 어휘로 옮겨 보냅니다.
+      // 이게 없으면 사람 말과 표 제목의 어휘가 달라 대출 표가 한 건도 안 붙습니다.
+      p_keywords: titleKeywords(question),
     }),
   );
   if (res.error !== null) return { data: null, news: [], slots, error: res.error };
