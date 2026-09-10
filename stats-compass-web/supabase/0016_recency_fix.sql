@@ -361,18 +361,35 @@ select jsonb_build_object(
       from (
         select distinct on (props->>'tblId') label, props, survey_label, rn, sc
         from (
-          select label, props, survey_label, 0 as rn, rrf::numeric as sc
-          from seed_tbl
+          -- rn = 0  질의에 직접 걸린 표. 다만 <최대 4개>까지만.
+          --
+          -- 상한을 안 두면 직접적중이 자리를 다 먹어 조사별 대표표가 밀려납니다.
+          -- 실제로 그렇게 됐습니다. 시나리오 적중률이 14/14 에서 떨어진 원인입니다.
+          -- 조사마다 표가 하나씩은 올라간다는 보장이 이 검색의 뼈대입니다.
+          select label, props, survey_label, rn, sc
+          from (
+            select label, props, survey_label, 0 as rn, rrf::numeric as sc,
+                   row_number() over (order by rrf desc) as k
+            from seed_tbl
+          ) sd
+          where k <= 4
           union all
-          select label, props, survey_label, rn_in_survey as rn,
+          -- rn = 1  조사별 1등 표. 랭킹된 조사 전부가 여기서 한 자리씩 확보합니다.
+          select label, props, survey_label, 1 as rn,
                  (survey_score * tsim)::numeric as sc
           from tbl
-          where rn_in_survey <= 2
+          where rn_in_survey = 1
+          union all
+          -- rn = 2  남는 자리를 채우는 2등 표
+          select label, props, survey_label, 2 as rn,
+                 (survey_score * tsim)::numeric as sc
+          from tbl
+          where rn_in_survey = 2
         ) u
         order by props->>'tblId', rn, sc desc
       ) d
       order by rn, sc desc
-      limit 14
+      limit 18
     ) f
   ), '[]'::jsonb),
   -- ▲ ───────────────────────────────────────────────────────────────
