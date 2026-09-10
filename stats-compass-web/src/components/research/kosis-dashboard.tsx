@@ -90,8 +90,22 @@ export function KosisDashboard({ tables }: { tables: RagTable[] }) {
     }
   }
 
-  const ok = series?.filter((s) => s.error === null) ?? [];
-  const bad = series?.filter((s) => s.error !== null) ?? [];
+  /**
+   * 카드 순서는 위 통계표 목록이 정합니다.
+   *
+   * series 는 요청을 보낸 순서 그대로 돌아옵니다. 수치를 불러온 뒤에 정렬을
+   * 바꾸면 목록과 카드가 어긋나므로, 그릴 때마다 목록 순서로 다시 세웁니다.
+   */
+  function rankOf(s: { orgId: string; tblId: string }): number {
+    const i = usable.findIndex((t) => t.orgId === s.orgId && t.tblId === s.tblId);
+    return i === -1 ? Number.MAX_SAFE_INTEGER : i;
+  }
+  function byOrder(a: KosisSeries, b: KosisSeries): number {
+    return rankOf(a) - rankOf(b);
+  }
+
+  const ok = (series?.filter((s) => s.error === null) ?? []).slice().sort(byOrder);
+  const bad = (series?.filter((s) => s.error !== null) ?? []).slice().sort(byOrder);
 
   /** orgId-tblId → 나침반이 아는 통계표명 */
   const labelOf = (key: string): string | null =>

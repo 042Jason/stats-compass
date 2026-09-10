@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { AlertTriangle, ArrowRight, ExternalLink, Newspaper, Table2 } from "lucide-react";
-import { kosisTableUrl, type RagResult } from "@/lib/graphrag";
+import { AlertTriangle, ArrowRight, Newspaper } from "lucide-react";
+import type { RagResult } from "@/lib/graphrag";
 import type { NewsItem } from "@/lib/queries/graphrag";
 import type { ResolvedSlots } from "@/lib/slots";
 import { GraphView } from "./graph-view";
-import { KosisDashboard } from "./kosis-dashboard";
+import { TablesPanel } from "./tables-panel";
 import { AiBriefing } from "./ai-briefing";
 
 /** 관계 id → 사람이 읽는 말. 근거 경로를 문장으로 보여 주기 위한 표입니다. */
@@ -180,78 +180,17 @@ export function RagResults({
         </section>
       )}
 
-      {/* 통계표 */}
-      {result.tables.length > 0 && (
-        <section aria-labelledby="tables">
-          <h2 id="tables" className="flex items-center gap-2 text-lg font-bold">
-            <Table2 className="size-5 text-primary" aria-hidden />
-            바로 볼 만한 통계표
-          </h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            조사마다 대표표를 하나씩 먼저 채우고 남는 자리를 채웠습니다. 한 조사가 목록을 독식하지
-            않으므로, 찾아낸 조사 전부의 통계표ID를 KOSIS 로 넘길 수 있습니다.
-          </p>
-          <div className="mt-3 overflow-hidden rounded-xl border border-border">
-            <table className="w-full border-collapse text-left text-sm">
-              <caption className="sr-only">질문과 가까운 KOSIS 통계표</caption>
-              <thead className="bg-muted/60">
-                <tr>
-                  <th scope="col" className="px-4 py-2.5 font-semibold">통계표</th>
-                  <th scope="col" className="w-40 px-4 py-2.5 font-semibold">조사</th>
-                  <th scope="col" className="w-28 px-4 py-2.5 font-semibold">최신 시점</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border bg-card">
-                {result.tables.map((t, i) => {
-                  const url = kosisTableUrl(t.orgId, t.tblId);
-                  return (
-                    <tr key={i} className="align-top">
-                      <td className="px-4 py-2.5">
-                        {url ? (
-                          <a
-                            href={url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-start gap-1 hover:text-primary hover:underline"
-                          >
-                            {t.label}
-                            <ExternalLink className="mt-0.5 size-3 shrink-0" aria-hidden />
-                          </a>
-                        ) : (
-                          t.label
-                        )}
-                      </td>
-                      <td className="px-4 py-2.5 text-muted-foreground">
-                        {t.survey ?? "—"}
-                        {t.directHit ? (
-                          <span className="ml-1.5 rounded bg-primary px-1.5 py-0.5 text-[10px] font-semibold text-primary-foreground">
-                            질문에 직접
-                          </span>
-                        ) : t.rank === 1 ? (
-                          <span className="ml-1.5 rounded bg-primary-soft px-1.5 py-0.5 text-[10px] font-semibold text-primary">
-                            대표
-                          </span>
-                        ) : null}
-                      </td>
-                      <td className="px-4 py-2.5 tabular-nums text-muted-foreground">
-                        {t.latestPeriod ?? "—"}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )}
-
-      {/* 통계표ID → KOSIS 호출 → 수치
+      {/* 통계표 목록 + 수치 대시보드.
+       *
+       * 둘을 한 컴포넌트로 묶었습니다. 순서를 한 곳에서 쥐고 양쪽에 같은 배열을
+       * 내려 줘야 목록 2번째 표가 수치에서도 2번째로 나옵니다.
        *
        * key 를 통계표 목록으로 잡습니다. 이게 없으면 새 질문을 던져도 React 가
        * 같은 자리의 컴포넌트를 재사용해서, 이전 질문에서 불러온 수치와 체크박스
-       * 선택이 그대로 남습니다. 목록이 바뀌면 새로 마운트되게 합니다. */}
-      <KosisDashboard
+       * 선택이 그대로 남습니다. */}
+      <TablesPanel
         key={result.tables.map((t) => t.tblId ?? "").join(",")}
+        question={question}
         tables={result.tables}
       />
 
@@ -281,7 +220,6 @@ export function RagResults({
           </ul>
         </section>
       )}
-
     </div>
   );
 }
