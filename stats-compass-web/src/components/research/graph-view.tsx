@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Play } from "lucide-react";
 import type { RagResult } from "@/lib/graphrag";
 import type { ResolvedSlots } from "@/lib/slots";
+import { SEARCH_STEPS, STEP_MS } from "@/lib/search-steps";
 
 /**
  * GraphRAG 활성화 뷰.
@@ -18,16 +19,15 @@ import type { ResolvedSlots } from "@/lib/slots";
  * "질문 조각에서 출발해 필요한 것만 골라 통계표까지 간다" 는 흐름이 안 보입니다.
  */
 
-/** 열이 하나씩 켜지는 간격 */
-const REVEAL_MS = 700;
-
-const STEP_CAPTION = [
-  "질문에서 나이·지역·성별을 떼어냅니다",
-  "별칭과 본문으로 가까운 노드를 찾습니다 (어휘 + 벡터)",
-  "관계를 타고 조사에 도달합니다 — 흐린 것은 점수에서 밀린 조사",
-  "조사들이 공유하는 통계용어가 서로를 잇습니다",
-  "각 조사의 대표 통계표를 골라 KOSIS 로 넘길 ID를 확정합니다",
-];
+/**
+ * 단계 정의는 검색 폼과 공유합니다.
+ *
+ * 검색 중에 뜨는 미리보기 그래프와 여기 실제 그래프가 같은 순서로 켜져야
+ * "기다리는 동안 본 그림"과 "결과 그림"이 이어집니다. 문구를 두 곳에 따로
+ * 적어 두면 곧 어긋납니다.
+ */
+const REVEAL_MS = STEP_MS;
+const STEP_CAPTION = SEARCH_STEPS.map((s) => s.caption);
 
 const STEP = 34;
 const NODE_H = 26;
@@ -40,13 +40,15 @@ interface Col {
   title: string;
 }
 
-const COLS: Col[] = [
-  { key: "slot", x: 6, w: 118, title: "질문 조각" },
-  { key: "seed", x: 158, w: 158, title: "걸린 노드" },
-  { key: "survey", x: 350, w: 176, title: "조사" },
-  { key: "concept", x: 560, w: 150, title: "통계용어" },
-  { key: "table", x: 744, w: 268, title: "통계표" },
+/** 열 머리글도 SEARCH_STEPS 에서 가져옵니다. 좌표만 여기서 정합니다. */
+const COL_BOX = [
+  { key: "slot", x: 6, w: 118 },
+  { key: "seed", x: 158, w: 158 },
+  { key: "survey", x: 350, w: 176 },
+  { key: "concept", x: 560, w: 150 },
+  { key: "table", x: 744, w: 268 },
 ];
+const COLS: Col[] = COL_BOX.map((c, i) => ({ ...c, title: SEARCH_STEPS[i].title }));
 
 const VB_W = 1020;
 
