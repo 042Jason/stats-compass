@@ -18,4 +18,5 @@ export const NAV_ITEMS = [
   { href: "/whats-new", label: "What's New" },
   { href: "/deep-dives", label: "Deep Dive" },
   { href: "/graph", label: "관계망" },
+  { href: "/deck", label: "발표 장표" },
 ] as const;
