@@ -30,8 +30,10 @@ export interface RagTable {
   prdSe: string | null;
   survey: string | null;
   score: number;
-  /** 그 조사 안에서 몇 번째로 가까운 표인지. 1이면 그 조사의 대표표입니다. */
+  /** 그 조사 안에서 몇 번째로 가까운 표인지. 1이면 그 조사의 대표표, 0이면 질의 직접 적중입니다. */
   rank: number;
+  /** 질의에 직접 걸린 표인가. 조사를 거쳐 고른 표와 구분합니다 */
+  directHit: boolean;
 }
 
 export interface RagCaution {
@@ -120,7 +122,8 @@ export function toRagResult(value: unknown): RagResult {
         prdSe: sn(x.prdSe),
         survey: sn(x.survey),
         score: n(x.score),
-        rank: n(x.rank) || 1,
+        rank: n(x.rank),
+        directHit: x.directHit === true,
       }))
       .filter((x) => x.label !== ""),
     dropped: arr(raw.dropped)

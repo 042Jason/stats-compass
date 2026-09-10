@@ -597,21 +597,43 @@ export async function fetchKosisSeries(opts: FetchOpts): Promise<KosisSeries> {
     return vs.length > 0 && vs.every((v) => v !== null && Math.abs(v - 100) < 0.0001);
   };
 
+  /* 계열 식별자는 "C1|C2|…|ITM_ID" 입니다. 마지막 조각만 항목이고 앞은 분류입니다. */
+  const clsOf = (k: string) => k.slice(0, k.lastIndexOf('|'));
+
   if (bestKey !== "" && groups.size > 1 && allHundred(groups.get(bestKey)!)) {
-    let altKey = "";
-    let altMax = -Infinity;
-    for (const [k, g] of groups) {
-      if (k === bestKey) continue;
-      const last = toPoints(g).at(-1)?.value;
-      if (last === null || last === undefined) continue;
-      if (last > altMax) {
-        altMax = last;
-        altKey = k;
+    /* 100 을 쪼개는 축은 <항목>입니다.
+     *
+     *   부모와의 교류: 거의 매일 20.0 · 일주일에 한두번 44.4 · 한달에 한두번 29.0
+     *
+     * 그래서 분류(행정구역·성별·연령)는 그대로 두고 항목만 바꿔야 합니다.
+     * 값이 큰 계열을 아무거나 고르면 "전국 → 동부" 처럼 분류를 갈아타는데,
+     * 동부의 계도 100 이라 아무것도 나아지지 않습니다. 실제로 그렇게 나왔습니다.
+     */
+    const wantCls = clsOf(bestKey);
+    const pick = (sameCls: boolean): string => {
+      let key = "";
+      let max = -Infinity;
+      for (const [k, g] of groups) {
+        if (k === bestKey) continue;
+        if (sameCls && clsOf(k) !== wantCls) continue;
+        const last = toPoints(g).at(-1)?.value;
+        if (last === null || last === undefined) continue;
+        // 대체한 계열까지 100 이면 고를 이유가 없습니다.
+        if (Math.abs(last - 100) < 0.0001) continue;
+        if (last > max) {
+          max = last;
+          key = k;
+        }
       }
-    }
+      return key;
+    };
+
+    // ① 같은 분류 안에서 항목만 바꿔 봅니다  ② 없으면 아무 계열
+    const altKey = pick(true) || pick(false);
     if (altKey !== "") {
       const was = labelOf(groups.get(bestKey)![0]);
-      seriesNote = `총계가 항상 100이라 가장 큰 항목으로 바꿨습니다 (원래 계열: ${was})`;
+      const now = labelOf(groups.get(altKey)![0]);
+      seriesNote = `총계가 항상 100이라 가장 큰 항목으로 바꿨습니다 — ${now} (원래: ${was})`;
       bestKey = altKey;
     }
   }

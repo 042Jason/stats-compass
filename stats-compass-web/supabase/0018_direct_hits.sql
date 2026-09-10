@@ -1,7 +1,7 @@
 -- ============================================================================
--- 0016_recency_fix.sql — 최신성 정렬 기준 일치
+-- 0018_direct_hits.sql — 질의에 직접 걸린 통계표를 살립니다
 --
--- 0015_recency.sql 다음에 실행합니다. 0011~0015 내용을 모두 포함합니다.
+-- 0016_recency_fix.sql 다음에 실행합니다. 0011~0016 내용을 모두 포함합니다.
 --
 -- 증상
 --   "대전 30대 월급" 질의에 1960년 주택총조사 표가 올라왔습니다.
@@ -229,19 +229,16 @@ tbl as (
       order by adj
       limit 2
     ) z
-  ) t
-),
+  ) t,
 -- 질의에 <직접> 걸린 통계표.
 --
--- 지금까지 통계표는 조사를 정한 뒤 벡터 거리로 <다시> 뽑았습니다. 그래서 검색이
--- 이미 찾아낸 표가 같은 조사의 다른 표에 밀려 최종 목록에서 사라졌습니다.
+-- 지금까지 통계표는 조사를 정한 뒤 벡터 거리로 다시 뽑았습니다. 그래서
+-- 검색이 이미 찾아낸 표가 같은 조사의 다른 표에 밀려 사라졌습니다.
+--   "사교육비가 얼마인지" → 월평균 사교육비 지출금액 구간 및 특성별 분포
+--   이 표가 씨앗으로 걸려도 최종 목록에는 없었습니다.
 --
---   "사교육비가 얼마인지"
---     → 월평균 사교육비 지출금액 구간 및 특성별 분포 (씨앗으로 걸림)
---     → 그런데 목록에는 없음. 같은 조사의 다른 표가 거리·최신성에서 앞섰기 때문
---
+-- 검색이 직접 집어낸 표는 그 조사의 대표표로 <반드시> 올립니다.
 -- 사람이 물어본 것에 가장 가까운 표를 알고리즘이 다시 버릴 이유가 없습니다.
--- 씨앗으로 걸린 표는 rn = 0 으로 무조건 올립니다.
 seed_tbl as (
   select e.label, e.props, rk.label as survey_label, s.rrf
   from top_seeds s
@@ -340,9 +337,6 @@ select jsonb_build_object(
   -- ▼ 0010 에서 바뀐 곳 ─────────────────────────────────────────────
   --   정렬 키가 (rn, 점수) 입니다. 각 조사의 1등 표가 먼저 자리를 잡습니다.
   --   'rank' 를 같이 실어 보내 프런트에서 "조사별 대표표" 를 구분할 수 있게 했습니다.
-  --   rn = 0  질의에 직접 걸린 표 (seed_tbl). 무조건 올립니다
-  --   rn = 1,2 조사별로 벡터 거리가 가까운 표
-  --   같은 표가 양쪽에 다 있으면 rn 이 작은 쪽만 남깁니다.
   'tables', coalesce((
     select jsonb_agg(
              jsonb_build_object(
@@ -357,23 +351,37 @@ select jsonb_build_object(
              ) order by rn, sc desc
            )
     from (
-      select label, props, survey_label, rn, sc
+      -- 같은 표가 양쪽에 다 있으면 rn 이 작은 쪽(씨앗)만 남깁니다.
+      select distinct on (props->>'tblId') label, props, survey_label, rn, sc
       from (
-        select distinct on (props->>'tblId') label, props, survey_label, rn, sc
-        from (
-          select label, props, survey_label, 0 as rn, rrf::numeric as sc
-          from seed_tbl
-          union all
-          select label, props, survey_label, rn_in_survey as rn,
-                 (survey_score * tsim)::numeric as sc
-          from tbl
-          where rn_in_survey <= 2
-        ) u
-        order by props->>'tblId', rn, sc desc
-      ) d
-      order by rn, sc desc
-      limit 14
-    ) f
+        -- rn = 0 : 질의에 직접 걸린 표. 무조건 올립니다.
+        select label, props, survey_label, 0 as rn, rrf::numeric as sc
+        from seed_tbl
+        union all
+        -- rn = 1,2 : 조사별로 벡터 거리가 가까운 표
+        select label, props, survey_label, rn_in_survey as rn,
+               (survey_score * tsim)::numeric as sc
+        from tbl
+        where rn_in_survey <= 2
+      ) u
+      order by props->>'tblId', rn, sc desc
+    ) d
+    where (d.rn, d.sc) in (
+      select rn, sc from (
+        select rn, sc from (
+          select distinct on (props->>'tblId') props, rn, sc
+          from (
+            select props, 0 as rn, rrf::numeric as sc from seed_tbl
+            union all
+            select props, rn_in_survey as rn, (survey_score * tsim)::numeric as sc
+            from tbl where rn_in_survey <= 2
+          ) u2
+          order by props->>'tblId', rn, sc desc
+        ) q
+        order by rn, sc desc
+        limit 14
+      ) lim
+    )
   ), '[]'::jsonb),
   -- ▲ ───────────────────────────────────────────────────────────────
 
@@ -381,14 +389,4 @@ select jsonb_build_object(
     select jsonb_agg(distinct jsonb_build_object('a', ea.label, 'b', eb.label, 'why', r.evidence))
     from public.ontology_relations r
     join public.ontology_entities ea on ea.id = r.source_id
-    join public.ontology_entities eb on eb.id = r.target_id
-    where r.property_id = 'oftenConfusedWith'
-      and r.source_id in (select node_id from ranked)
-      and r.target_id in (select node_id from ranked)
-  ), '[]'::jsonb)
-);
-$fn$;
-
-grant execute on function public.graphrag_search(vector, text, text[], int, int, boolean) to anon, authenticated;
-
-notify pgrst, 'reload schema';
+    join public.ontology_entities eb on e
