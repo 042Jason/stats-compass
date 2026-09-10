@@ -15,6 +15,7 @@ import 'dotenv/config';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { supabase } from '../clients/supabase.js';
 import { log } from '../utils/logger.js';
+import { applyOverrides } from './ontologyOverrides.js';
 
 const CONCEPTS_FILE = 'data/seed/12_concepts.json';
 const STAGES_FILE = 'data/seed/13_stages.json';
@@ -805,6 +806,73 @@ async function main(): Promise<void> {
     if (s) s.weight += 1;
     if (t) t.weight += 1;
   }
+
+  /* 8-8. 손으로 추가한 통계개념 (data/seed/13_conceptsExtra.json)
+   *
+   * KOSIS 주요용어에서 자동으로 뽑히는 개념과 별개로, <사람이 헷갈리는 말>을 채워 넣는 층입니다.
+   * "가구와 세대", "고용률과 실업률" 처럼 조사 설명자료 안에 정의가 흩어져 있어
+   * 자동 추출로는 쌍을 못 만드는 것들입니다.
+   *
+   * 이미 같은 key 의 개념이 있으면 addEnt 가 빈 칸만 채우므로 자동 추출분을 덮어쓰지 않습니다. */
+  {
+    const extra = readJson<{
+      concepts?: Array<{
+        key: string; label: string; group?: string; status?: string;
+        definition?: string; alt?: string[]; source?: string;
+      }>;
+      confusions?: Array<{ a: string; b: string; why?: string; status?: string; source?: string }>;
+      related?: Array<{ a: string; b: string }>;
+    }>('data/seed/13_conceptsExtra.json');
+
+    if (extra) {
+      let made = 0;
+      for (const c of extra.concepts ?? []) {
+        if (!c.key || !c.label) continue;
+        addEnt('Concept', c.key, c.label, {
+          description: c.definition ?? null,
+          alt_labels: c.alt ?? [],
+          props: {
+            group: c.group ?? null,
+            // 확인 = 공식 페이지 원문 대조함 / 미확인 = 표준 정의이나 대조 안 함.
+            // 화면과 문서에서 이 값을 그대로 보여 줘야 합니다. 감추면 근거 없는 정의처럼 보입니다.
+            status: c.status ?? '미확인',
+            source: c.source ?? null,
+            handmade: true,
+          },
+        });
+        made++;
+      }
+
+      let pairs = 0;
+      for (const p of extra.confusions ?? []) {
+        const a = ref('Concept', p.a);
+        const b = ref('Concept', p.b);
+        if (!ents.has(a) || !ents.has(b)) {
+          log.warn(`  혼동쌍의 개념이 없습니다: ${p.a} ↔ ${p.b}`);
+          continue;
+        }
+        addRel('oftenConfusedWith', a, b, { evidence: p.why, symmetric: true });
+        pairs++;
+      }
+      for (const p of extra.related ?? []) {
+        const a = ref('Concept', p.a);
+        const b = ref('Concept', p.b);
+        if (!ents.has(a) || !ents.has(b)) continue;
+        addRel('relatedConcept', a, b, { symmetric: true });
+      }
+
+      const unverified = (extra.concepts ?? []).filter((c) => (c.status ?? '미확인') !== '확인').length;
+      log.info(`손으로 추가한 개념 ${made}개 · 혼동쌍 ${pairs}개`);
+      if (unverified > 0) log.warn(`  그중 ${unverified}개는 상태가 '미확인' 입니다 — 원문 대조가 필요합니다`);
+    }
+  }
+
+  /* 8-9. 사람이 엑셀에서 고친 것을 다시 얹습니다.
+   *
+   * 이 스크립트는 그래프를 매번 처음부터 다시 만듭니다. 그래서 이 단계가 없으면
+   * 18_applyOntologyEdits.ts 로 넣은 수정분이 재빌드 한 번에 전부 날아갑니다.
+   * 자동 생성분이 먼저, 사람 손이 나중입니다 — 사람이 이깁니다. */
+  applyOverrides(ents, rels, ref, addRel);
 
   /* 9. 요약 */
   const byClass = new Map<string, number>();

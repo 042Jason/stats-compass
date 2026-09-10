@@ -20,11 +20,14 @@
     "seed:cleanup": "tsx src/seed/09_cleanupStubs.ts",
     "seed:ai-export": "tsx src/seed/10_exportForAI.ts",
     "seed:ai-apply": "tsx src/seed/11_applyAiContent.ts",
+    "onto:export": "tsx src/seed/17_exportOntology.ts",
+    "onto:apply": "tsx src/seed/18_applyOntologyEdits.ts",
     "seed:all": "pnpm seed:tables && pnpm seed:meta && pnpm seed:build && pnpm seed:upsert"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
     "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
     "p-limit": "^6.1.0"
   },
   "devDependencies": {

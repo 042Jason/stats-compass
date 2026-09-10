@@ -18,7 +18,7 @@ import { dateSortKey, toTimelineItem } from "@/lib/normalize";
  * 스키마에 따라 없을 수 있어, 실패하면 `*` 로 재시도합니다.
  */
 const STAT_LIST_COLUMNS =
-  "id, stat_id, name_ko, name_en, agency, category, frequency, tags, status, purpose, updated_at";
+  "id, stat_id, name_ko, name_en, agency, category, frequency, tags, status, purpose, summary, updated_at";
 const STAT_LIST_FALLBACK = "*";
 const COLUMN_ATTEMPTS = [STAT_LIST_COLUMNS, STAT_LIST_FALLBACK];
 

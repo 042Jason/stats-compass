@@ -1,7 +1,7 @@
 import "server-only";
 import { getSupabase } from "@/lib/supabase/server";
 import type { SearchHit, StatisticRow, StatisticTableRow } from "@/lib/types";
-import { displayAgency } from "@/lib/agency";
+import { shortAgency } from "@/lib/agency";
 
 export interface SearchResponse {
   hits: SearchHit[];
@@ -102,7 +102,8 @@ async function fallbackSearch(q: string, limit: number): Promise<SearchResponse>
         id: row.id,
         statId: row.stat_id,
         title: row.name_ko,
-        subtitle: displayAgency(row.agency),
+        // 검색 결과 목록도 카드와 같은 규칙 — 전부 국가데이터처라 과명만 보여 줍니다.
+        subtitle: shortAgency(row.agency),
         category: row.category ?? null,
         kosisUrl: null,
         rank,

@@ -32,6 +32,8 @@ export interface StatisticRow extends Extra {
   category?: string | null;
   legal_basis?: string | null;
   purpose?: string | null;
+  /** 목록 카드용 한 줄 개요. 21_applySurveyMeta 가 채웁니다. 원문은 purpose 에 그대로 있습니다 */
+  summary?: string | null;
   frequency?: string | null;
   tags?: string[] | Json | null;
   raw_meta?: Json | null;

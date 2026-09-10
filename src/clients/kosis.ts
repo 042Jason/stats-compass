@@ -94,6 +94,30 @@ export function fetchTableMeta(orgId: string, tblId: string) {
   });
 }
 
+/**
+ * 통계설명자료 — 조사목적·주요용어·이용시 유의사항·조사연혁 등.
+ *
+ * ⚠ 엔드포인트를 헷갈리기 쉽습니다. 셋이 서로 다릅니다.
+ *
+ *   statisticsList.do?method=getMeta&type=TBL     통계표 <명칭>만 (TBL_NM)
+ *   statisticsData.do?method=getMeta&type=ITM/PRD 분류항목 · 수록정보
+ *   statisticsExplData.do?method=getList          ← 통계설명자료는 여기입니다
+ *
+ * 개발가이드 2.4.3.1. `metaItm` 이 <필수>입니다. 빠뜨리면 이렇게 답합니다.
+ *   {err:"20", errMsg:"필수요청변수값이 누락되었습니다."}
+ *
+ * statId 대신 orgId+tblId 로도 부를 수 있습니다. 통계승인번호를 몰라도 됩니다.
+ * 우리가 쓰는 필드(writingPurps · mainTermExpl · dataUserNote · examinHistory)가
+ * 전부 이 API 것입니다.
+ */
+export function fetchStatExplanation(params: { statId?: string; orgId?: string; tblId?: string }) {
+  const p: Record<string, string> = { method: 'getList', metaItm: 'All' };
+  if (params.statId) p.statId = params.statId;
+  if (params.orgId) p.orgId = params.orgId;
+  if (params.tblId) p.tblId = params.tblId;
+  return kosisFetch<Record<string, unknown>[]>('statisticsExplData.do', p);
+}
+
 /** 통계표 수록정보(주기·시작·종료 시점) */
 export function fetchTablePeriod(orgId: string, tblId: string) {
   return kosisFetch<Record<string, unknown>[]>('statisticsData.do', {

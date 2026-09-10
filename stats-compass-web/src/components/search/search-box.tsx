@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Search } from "lucide-react";
+import { Loader2, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -34,6 +34,7 @@ function SearchBoxWithParams(props: SearchBoxProps) {
 function SearchForm({ size = "lg", autoFocus, className, placeholder, initial }: SearchBoxProps & { initial: string }) {
   const router = useRouter();
   const [value, setValue] = React.useState(initial);
+  const [pending, startTransition] = React.useTransition();
 
   React.useEffect(() => {
     setValue(initial);
@@ -42,7 +43,11 @@ function SearchForm({ size = "lg", autoFocus, className, placeholder, initial }:
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const q = value.trim();
-    router.push(q ? `/search?q=${encodeURIComponent(q)}` : "/search");
+    // startTransition 으로 감싸야 서버 렌더가 끝날 때까지 pending 이 유지됩니다.
+    // 그냥 push 하면 버튼이 눌렸는지 알 길이 없습니다.
+    startTransition(() => {
+      router.push(q ? `/search?q=${encodeURIComponent(q)}` : "/search");
+    });
   };
 
   const isLg = size === "lg";
@@ -74,9 +79,10 @@ function SearchForm({ size = "lg", autoFocus, className, placeholder, initial }:
       <Button
         type="submit"
         size={isLg ? "default" : "sm"}
+        disabled={pending}
         className={cn("absolute right-1.5", isLg ? "h-9" : "h-6 px-2.5")}
       >
-        검색
+        {pending ? <Loader2 className={cn("animate-spin", isLg ? "size-4" : "size-3")} aria-hidden /> : "검색"}
       </Button>
     </form>
   );

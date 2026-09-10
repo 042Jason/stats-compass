@@ -5,6 +5,7 @@ import type { NewsItem } from "@/lib/queries/graphrag";
 import type { ResolvedSlots } from "@/lib/slots";
 import { GraphView } from "./graph-view";
 import { KosisDashboard } from "./kosis-dashboard";
+import { AiBriefing } from "./ai-briefing";
 
 /** 관계 id → 사람이 읽는 말. 근거 경로를 문장으로 보여 주기 위한 표입니다. */
 const VIA_LABEL: Record<string, string> = {
@@ -37,10 +38,12 @@ export function RagResults({
   result,
   news,
   slots,
+  question,
 }: {
   result: RagResult;
   news: NewsItem[];
   slots: ResolvedSlots;
+  question: string;
 }) {
   const max = result.surveys[0]?.score ?? 1;
 
@@ -49,6 +52,15 @@ export function RagResults({
       {/* 맨 위에 둡니다. 결과 목록을 먼저 보면 "어디서 나온 건지" 를 모른 채 읽게 됩니다.
        * 경로를 먼저 보여 주고, 그 다음에 그 경로가 찾아낸 것들을 늘어놓는 순서입니다. */}
       <GraphView result={result} slots={slots} />
+
+      {/* 경로를 본 다음 "그래서 어떻게 보면 되는가". 검색과 따로 부르므로
+       * 이 칸이 로딩 중이어도 아래 결과 목록은 이미 다 떠 있습니다. */}
+      <AiBriefing
+        key={`${question}|${result.tables.map((t) => t.tblId ?? "").join(",")}`}
+        question={question}
+        slots={slots}
+        result={result}
+      />
 
       {/* 검색 진입점 — GraphRAG 의 1단계를 그대로 보여 줍니다 */}
       {result.seeds.length > 0 && (

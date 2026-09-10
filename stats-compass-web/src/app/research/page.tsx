@@ -81,7 +81,12 @@ export default async function ResearchPage({ searchParams }: Props) {
         )}
 
         {outcome?.error === null && outcome.data.surveys.length > 0 && (
-          <RagResults result={outcome.data} news={outcome.news} slots={outcome.slots} />
+          <RagResults
+            result={outcome.data}
+            news={outcome.news}
+            slots={outcome.slots}
+            question={q}
+          />
         )}
       </div>
     </>

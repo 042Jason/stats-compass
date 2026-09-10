@@ -167,3 +167,28 @@ export function repairOrgName(value: string | null | undefined): string | null {
 export function displayAgency(value: string | null | undefined): string | null {
   return repairOrgName(value);
 }
+
+/**
+ * 목록·카드용 짧은 표기 — <과명만> 남깁니다.
+ *
+ * 이 카탈로그는 전부 국가데이터처 승인통계라 카드마다 "국가데이터처"를 되풀이할
+ * 이유가 없습니다. 같은 말이 스무 번 반복되면 정작 다른 정보인 과명이 안 보입니다.
+ *
+ *   "국가데이터처 서비스업동향과"  →  "서비스업동향과"
+ *   "국가데이터처"                →  null  (표시하지 않음)
+ *   "한국은행"                    →  "한국은행"  (다른 기관은 그대로)
+ *
+ * 상세 페이지에서는 displayAgency 로 기관명까지 온전히 보여 줍니다. 목록에서만 줄입니다.
+ */
+export function shortAgency(value: string | null | undefined): string | null {
+  const full = repairOrgName(value);
+  if (!full) return null;
+
+  // 전화번호 같은 괄호 꼬리는 목록에서 필요 없습니다.
+  const head = full.replace(/\s*[(（].*$/, "").trim();
+  if (!head) return null;
+  if (!head.startsWith(ORG)) return head;
+
+  const rest = head.slice(ORG.length).trim();
+  return rest === "" ? null : rest;
+}
