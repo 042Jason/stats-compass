@@ -30,7 +30,7 @@ export default function HomePage() {
       <Hero />
 
       <section className="container-page py-12 md:py-16" aria-labelledby="home-categories">
-        <SectionHeader id="home-categories" title="분야별로 찾기" description="관심 분야를 고르면 해당 승인통계 조사 목록으로 이동합니다." moreHref="/browse" moreLabel="전체 조사 보기" />
+        <SectionHeader id="home-categories" title="분야별로 찾기" description="관심 분야를 고르면 해당 승인통계 목록으로 이동합니다." moreHref="/browse" moreLabel="전체 통계 보기" />
         <Suspense fallback={<CategoryGridSkeleton />}>
           <CategorySection />
         </Suspense>
@@ -46,7 +46,7 @@ export default function HomePage() {
       </section>
 
       <section className="container-page py-12 md:py-16" aria-labelledby="home-recent">
-        <SectionHeader id="home-recent" title="최근 갱신된 조사" description="메타정보가 최근에 갱신된 조사입니다." moreHref="/browse?sort=recent" />
+        <SectionHeader id="home-recent" title="최근 갱신된 통계" description="메타정보가 최근에 갱신된 통계입니다." moreHref="/browse?sort=recent" />
         <Suspense fallback={<StatisticGridSkeleton count={6} />}>
           <RecentSection />
         </Suspense>
@@ -66,11 +66,11 @@ export default function HomePage() {
                 <BookMarked className="size-4" aria-hidden /> Deep Dive
               </p>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                한 조사를 깊이 들여다보는 심층 소개 아티클입니다. 작성 목적, 조사 방식, 읽을 때 주의할 점을 다룹니다.
+                한 통계를 깊이 들여다보는 심층소개 분석입니다. 작성 목적, 작성 방식, 읽을 때 주의할 점을 다룹니다.
               </p>
               <Button asChild variant="outline" size="sm" className="mt-4">
                 <Link href="/deep-dives">
-                  아티클 보기 <ArrowRight aria-hidden />
+                  분석 보기 <ArrowRight aria-hidden />
                 </Link>
               </Button>
             </div>
@@ -110,7 +110,7 @@ function Hero() {
         <p className="mb-3 text-sm font-semibold text-white/70">국가데이터처 승인통계 큐레이션</p>
         <h1 className="max-w-3xl text-3xl font-bold leading-tight tracking-tight md:text-5xl">{SITE_TAGLINE}</h1>
         <p className="mt-4 max-w-2xl text-[15px] leading-7 text-white/80 md:text-base">
-          어떤 통계가 있는지, 왜 만들어졌는지, 어떤 표를 봐야 하는지. 승인통계 조사와 KOSIS 통계표를
+          어떤 통계가 있는지, 왜 만들어졌는지, 어떤 표를 봐야 하는지. 승인통계와 KOSIS 통계표를
           한곳에서 찾아보세요.
         </p>
         <div className="mt-8 max-w-2xl rounded-xl bg-white p-2 shadow-lg">
@@ -131,7 +131,7 @@ async function HeroStats() {
     <dl className="mt-6 flex flex-wrap gap-x-8 gap-y-2 text-sm text-white/80">
       <div className="flex items-center gap-2">
         <Database className="size-4" aria-hidden />
-        <dt>승인통계 조사</dt>
+        <dt>승인통계</dt>
         <dd className="font-semibold text-white">{stats.toLocaleString("ko-KR")}개</dd>
       </div>
       <div className="flex items-center gap-2">
@@ -167,7 +167,7 @@ async function CategorySection() {
               </span>
               <span className="min-w-0">
                 <span className="block truncate font-semibold group-hover:text-primary">{meta.label}</span>
-                <span className="block text-xs text-muted-foreground">{count}개 조사</span>
+                <span className="block text-xs text-muted-foreground">{count}개 통계</span>
               </span>
             </Link>
           </li>
@@ -199,7 +199,7 @@ async function SetsSection() {
         compact
         title="큐레이션 세트를 준비하고 있습니다"
         description="주제별로 엮은 통계 묶음이 곧 공개됩니다. 그동안 분야별 찾기와 검색을 이용해 주세요."
-        action={{ href: "/browse", label: "전체 조사 보기" }}
+        action={{ href: "/browse", label: "전체 통계 보기" }}
       />
     );
   }
@@ -219,7 +219,7 @@ async function RecentSection() {
   const res = await getRecentStatistics(6);
   if (res.error !== null) return <ErrorState compact detail={res.error} />;
   if (res.data.length === 0) {
-    return <EmptyState compact title="등록된 조사가 없습니다" description="통계 데이터가 적재되면 이곳에 표시됩니다." />;
+    return <EmptyState compact title="등록된 통계가 없습니다" description="통계 데이터가 적재되면 이곳에 표시됩니다." />;
   }
   return <StatisticGrid items={res.data} />;
 }

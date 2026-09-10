@@ -22,7 +22,7 @@ export default async function SetsPage() {
       <PageHeader
         eyebrow="큐레이션"
         title="큐레이션 세트"
-        description="하나의 질문이나 주제를 중심으로, 함께 보면 좋은 승인통계 조사를 편집자가 골라 엮었습니다. 처음 통계를 찾는 분도 어디서부터 볼지 감을 잡을 수 있도록 구성합니다."
+        description="하나의 질문이나 주제를 중심으로, 함께 보면 좋은 승인통계를 편집자가 골라 엮었습니다. 처음 통계를 찾는 분도 어디서부터 볼지 감을 잡을 수 있도록 구성합니다."
       />
       <div className="container-page py-10">
         {res.error !== null ? (
@@ -32,7 +32,7 @@ export default async function SetsPage() {
             icon={BookMarked}
             title="큐레이션 세트를 준비하고 있습니다"
             description="주제별 통계 묶음을 편집 중입니다. 공개되는 대로 이곳에서 안내해 드리겠습니다. 그동안 분야별 찾기와 검색을 이용해 주세요."
-            action={{ href: "/browse", label: "전체 조사 보기" }}
+            action={{ href: "/browse", label: "전체 통계 보기" }}
           />
         ) : (
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">

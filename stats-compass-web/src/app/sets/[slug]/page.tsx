@@ -58,7 +58,7 @@ export default async function SetDetailPage({ params }: { params: Params }) {
               </span>
             )}
             {date && <time dateTime={date}>{formatDate(date)}</time>}
-            {items.error === null && <span>{items.data.length}개 조사</span>}
+            {items.error === null && <span>{items.data.length}개 통계</span>}
           </p>
         </div>
       </div>
@@ -74,7 +74,7 @@ export default async function SetDetailPage({ params }: { params: Params }) {
         {items.error !== null ? (
           <ErrorState detail={items.error} />
         ) : items.data.length === 0 ? (
-          <EmptyState title="아직 담긴 조사가 없습니다" description="이 세트는 편집 중입니다. 조사가 추가되면 이곳에 표시됩니다." />
+          <EmptyState title="아직 담긴 통계가 없습니다" description="이 세트는 편집 중입니다. 통계가 추가되면 이곳에 표시됩니다." />
         ) : (
           <ol className="space-y-4" role="list">
             {items.data.map(({ item, statistic }, i) => (
@@ -89,7 +89,7 @@ export default async function SetDetailPage({ params }: { params: Params }) {
                   <StatisticCard statistic={statistic} note={pick<string>(item as Record<string, unknown>, ["editor_note", "note", "comment", "reason", "description"])} />
                 ) : (
                   <div className="rounded-xl border border-dashed border-border p-5 text-sm text-muted-foreground">
-                    연결된 조사 정보를 찾을 수 없습니다. (statistic_id: {item.statistic_id})
+                    연결된 통계 정보를 찾을 수 없습니다. (statistic_id: {item.statistic_id})
                   </div>
                 )}
               </li>

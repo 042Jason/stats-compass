@@ -25,16 +25,20 @@ const MODEL = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
 
 const SYSTEM = `당신은 국가승인통계 길잡이입니다. 연구자가 어느 통계를 어떤 순서로 봐야 하는지 안내합니다.
 
+용어: 하나하나의 국가승인통계를 가리킬 때 "조사" 대신 "통계" 라고 씁니다. 표본조사가 아닌
+행정통계·가공통계도 있어 "조사" 는 전부를 포괄하지 못합니다. 다만 "인구주택총조사" 처럼
+이름에 조사가 들어간 고유명사는 그대로 씁니다.
+
 지켜야 할 것:
-- 아래 <검색결과>에 있는 조사·용어·통계표만 언급합니다. 목록에 없는 조사명을 지어내지 마세요.
+- 아래 <검색결과>에 있는 통계·용어·통계표만 언급합니다. 목록에 없는 통계명을 지어내지 마세요.
 - 구체적인 수치(금액·비율·인원)를 말하지 마세요. 숫자는 화면의 KOSIS 카드가 보여 줍니다.
   "평균 소득은 얼마입니다" 같은 문장을 쓰면 안 됩니다. 대신 "어느 표에서 확인할 수 있습니다" 라고 쓰세요.
 - 확실하지 않으면 단정하지 말고 무엇을 더 확인해야 하는지 적으세요.
 - 담백하게 씁니다. 감탄사·상투어를 쓰지 않습니다.
 
 형식:
-1) 첫 문단 — 질문을 어떻게 이해했는지, 어느 조사부터 보면 되는지 두세 문장.
-2) **먼저 볼 것** — 조사 2~3개를 불릿으로. 각 줄에 그 조사를 보는 이유 한 줄.
+1) 첫 문단 — 질문을 어떻게 이해했는지, 어느 통계부터 보면 되는지 두세 문장.
+2) **먼저 볼 것** — 통계 2~3개를 불릿으로. 각 줄에 그 통계를 보는 이유 한 줄.
 3) **조심할 점** — 혼동쌍·표본오차·지역단위·시계열단절 중 해당하는 것만. 없으면 이 절을 빼세요.
 
 전체 400자 안팎. 마크다운을 씁니다.`;
@@ -46,13 +50,13 @@ function clip(s: string | null | undefined, n: number): string {
 
 /** 관계 id → 사람 말. 경로를 문장으로 풀어 주면 모델이 이유를 정확히 옮깁니다. */
 const VIA: Record<string, string> = {
-  answeredBy: "이 연구질문에 답하는 조사",
-  measuredBy: "이 지표를 산출하는 조사",
-  definesConcept: "이 용어를 정의하는 조사",
+  answeredBy: "이 연구질문에 답하는 통계",
+  measuredBy: "이 지표를 산출하는 통계",
+  definesConcept: "이 용어를 정의하는 통계",
   usesIndicator: "이 지표를 쓰는 질문",
   hasDistribution: "이 통계표를 제공",
-  sharesConceptWith: "같은 개념을 쓰는 조사",
-  oftenConfusedWith: "함께 놓고 봐야 하는 조사",
+  sharesConceptWith: "같은 개념을 쓰는 통계",
+  oftenConfusedWith: "함께 놓고 봐야 하는 통계",
   complements: "같은 묶음으로 큐레이션",
   relatedTo: "주제어가 겹침",
   hasKeyword: "이 주제어가 붙음",
@@ -75,7 +79,7 @@ export function buildContext(question: string, slots: ResolvedSlots, r: RagResul
 
   lines.push("<검색결과>");
 
-  lines.push("[찾아낸 조사 — 점수 높은 순]");
+  lines.push("[찾아낸 통계 — 점수 높은 순]");
   for (const s of r.surveys.slice(0, 8)) {
     const why = s.paths
       .slice(0, 3)
@@ -88,7 +92,7 @@ export function buildContext(question: string, slots: ResolvedSlots, r: RagResul
 
   if (r.concepts.length > 0) {
     lines.push("");
-    lines.push("[조사들이 공유하는 통계용어]");
+    lines.push("[통계들이 공유하는 통계용어]");
     for (const c of r.concepts.slice(0, 8)) {
       const shared = c.surveys.length > 1 ? ` (${c.surveys.join(", ")} 가 함께 정의)` : "";
       lines.push(`- ${c.label}${shared}${c.definition ? ` — ${clip(c.definition, 90)}` : ""}`);
@@ -97,7 +101,7 @@ export function buildContext(question: string, slots: ResolvedSlots, r: RagResul
 
   if (r.cautions.length > 0) {
     lines.push("");
-    lines.push("[섞어 쓰면 안 되는 조합 — 조사 설명자료의 이용시 유의사항에서 뽑은 것]");
+    lines.push("[섞어 쓰면 안 되는 조합 — 통계설명자료의 이용시 유의사항에서 뽑은 것]");
     for (const c of r.cautions.slice(0, 5)) {
       lines.push(`- ${c.a} ↔ ${c.b}${c.why ? `: ${clip(c.why, 140)}` : ""}`);
     }
@@ -105,7 +109,7 @@ export function buildContext(question: string, slots: ResolvedSlots, r: RagResul
 
   if (r.dropped.length > 0) {
     lines.push("");
-    lines.push("[후보였다가 점수에서 밀린 조사]");
+    lines.push("[후보였다가 점수에서 밀린 통계]");
     lines.push(r.dropped.slice(0, 5).map((d) => d.label).join(", "));
   }
 
@@ -131,7 +135,7 @@ export async function writeBriefing(
 ): Promise<AnswerResult> {
   const key = process.env.OPENAI_API_KEY;
   if (!key) return { text: null, error: "OPENAI_API_KEY 가 없습니다." };
-  if (result.surveys.length === 0) return { text: null, error: "찾은 조사가 없어 길잡이를 쓸 수 없습니다." };
+  if (result.surveys.length === 0) return { text: null, error: "찾은 통계가 없어 길잡이를 쓸 수 없습니다." };
 
   try {
     const res = await fetch(ENDPOINT, {

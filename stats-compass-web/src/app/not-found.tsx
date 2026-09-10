@@ -10,14 +10,14 @@ export default function NotFound() {
       </span>
       <h1 className="text-2xl font-bold">페이지를 찾을 수 없습니다</h1>
       <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-        요청하신 주소가 잘못되었거나, 해당 조사·세트가 아직 등록되지 않았을 수 있습니다.
+        요청하신 주소가 잘못되었거나, 해당 통계·세트가 아직 등록되지 않았을 수 있습니다.
       </p>
       <div className="mt-6 flex gap-2">
         <Button asChild>
           <Link href="/">홈으로</Link>
         </Button>
         <Button asChild variant="outline">
-          <Link href="/browse">조사 찾기</Link>
+          <Link href="/browse">통계 찾기</Link>
         </Button>
       </div>
     </div>

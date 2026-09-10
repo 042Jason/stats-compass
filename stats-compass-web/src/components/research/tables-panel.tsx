@@ -158,7 +158,7 @@ export function TablesPanel({ question, tables }: { question: string; tables: Ra
                   순
                 </th>
                 <th scope="col" className="px-4 py-2.5 font-semibold">통계표</th>
-                <th scope="col" className="w-40 px-4 py-2.5 font-semibold">조사</th>
+                <th scope="col" className="w-40 px-4 py-2.5 font-semibold">통계</th>
                 <th scope="col" className="w-28 px-4 py-2.5 font-semibold">최신 시점</th>
               </tr>
             </thead>

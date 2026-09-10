@@ -37,7 +37,7 @@ export default async function WhatsNewPage() {
             icon={Bell}
             title="아직 등록된 소식이 없습니다"
             description="통계 승인·개편·자료 갱신 이벤트가 등록되면 이곳에 시간순으로 표시됩니다."
-            action={{ href: "/browse", label: "조사 찾기" }}
+            action={{ href: "/browse", label: "통계 찾기" }}
           />
         ) : (
           <div className="space-y-12">

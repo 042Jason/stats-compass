@@ -44,7 +44,7 @@ export function TableList({ tables, statName }: { tables: StatisticTableRow[]; s
         icon={Table2}
         compact
         title="등록된 통계표가 없습니다"
-        description="이 조사의 통계표 정보는 아직 수집되지 않았습니다. KOSIS에서 직접 확인하실 수 있습니다."
+        description="이 통계의 통계표 정보는 아직 수집되지 않았습니다. KOSIS에서 직접 확인하실 수 있습니다."
         action={{ href: `${KOSIS_HOME}/search/search.do?query=${encodeURIComponent(statName)}`, label: "KOSIS에서 검색" }}
       />
     );

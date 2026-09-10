@@ -58,7 +58,7 @@ type Params = Promise<{ stat_id: string }>;
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { stat_id } = await params;
   const res = await getStatisticByStatId(decodeURIComponent(stat_id));
-  if (res.error !== null || !res.data) return { title: "조사 상세" };
+  if (res.error !== null || !res.data) return { title: "통계 상세" };
   const s = res.data;
   return {
     title: s.name_ko,
@@ -155,7 +155,7 @@ export default async function StatisticDetailPage({ params }: { params: Params }
         <div className="container-page py-8 md:py-10">
           <Breadcrumbs
             items={[
-              { href: "/browse", label: "조사 찾기" },
+              { href: "/browse", label: "통계 찾기" },
               ...(s.category ? [{ href: `/browse?category=${encodeURIComponent(s.category)}`, label: s.category }] : []),
               { label: s.name_ko },
             ]}
@@ -189,7 +189,7 @@ export default async function StatisticDetailPage({ params }: { params: Params }
         <div className="min-w-0 space-y-12">
           {/* 개요 */}
           <section aria-labelledby="overview">
-            <SectionHeader id="overview" title="조사 개요" />
+            <SectionHeader id="overview" title="통계 개요" />
             <div className="space-y-6">
               {ai.overview && (
                 <div className="rounded-xl border border-primary/20 bg-primary-soft/40 p-5">
@@ -262,7 +262,7 @@ export default async function StatisticDetailPage({ params }: { params: Params }
 
               <TabsContent value="history">
                 {historyItems.length === 0 && historyProse.length === 0 ? (
-                  <EmptyState icon={History} compact title="등록된 연혁이 없습니다" description="조사 개편·명칭 변경 등 연혁 정보가 수집되면 표시됩니다." />
+                  <EmptyState icon={History} compact title="등록된 연혁이 없습니다" description="통계 개편·명칭 변경 등 연혁 정보가 수집되면 표시됩니다." />
                 ) : (
                   <div className="rounded-xl border border-border bg-card p-5">
                     {fromMeta && (
@@ -287,7 +287,7 @@ export default async function StatisticDetailPage({ params }: { params: Params }
                 {events.error !== null ? (
                   <ErrorState compact detail={events.error} />
                 ) : events.data.length === 0 ? (
-                  <EmptyState icon={Bell} compact title="최근 소식이 없습니다" description="이 조사와 관련된 승인·개편·자료 갱신 소식이 등록되면 표시됩니다." />
+                  <EmptyState icon={Bell} compact title="최근 소식이 없습니다" description="이 통계와 관련된 승인·개편·자료 갱신 소식이 등록되면 표시됩니다." />
                 ) : (
                   <div className="rounded-xl border border-border bg-card p-5">
                     <Timeline items={events.data} />
@@ -300,7 +300,7 @@ export default async function StatisticDetailPage({ params }: { params: Params }
           {/* 주요 용어 */}
           {(ai.terms.length > 0 || terms.length > 0) && (
             <section aria-labelledby="terms">
-              <SectionHeader id="terms" title="주요 용어" description="이 조사를 읽을 때 알아두면 좋은 개념" />
+              <SectionHeader id="terms" title="주요 용어" description="이 통계를 읽을 때 알아두면 좋은 개념" />
               {ai.terms.length > 0 ? (
                 <div className="overflow-hidden rounded-xl border border-border">
                   <table className="w-full border-collapse text-left text-[15px]">
@@ -408,7 +408,7 @@ export default async function StatisticDetailPage({ params }: { params: Params }
           {/* Deep Dive */}
           {articles.length > 0 && (
             <section aria-labelledby="dd">
-              <SectionHeader id="dd" title="Deep Dive" description="이 조사를 깊이 소개하는 아티클" />
+              <SectionHeader id="dd" title="Deep Dive" description="이 통계를 깊이 소개하는 분석" />
               <ul className="grid gap-4 sm:grid-cols-2" role="list">
                 {articles.map((a) => (
                   <li key={a.id}>
@@ -432,7 +432,7 @@ export default async function StatisticDetailPage({ params }: { params: Params }
             <section aria-labelledby="related">
               <SectionHeader
                 id="related"
-                title="같은 분야의 다른 조사"
+                title="같은 분야의 다른 통계"
                 moreHref={s.category ? `/browse?category=${encodeURIComponent(s.category)}` : "/browse"}
               />
               <StatisticGrid items={related} compact />

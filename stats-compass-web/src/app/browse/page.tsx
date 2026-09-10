@@ -12,8 +12,8 @@ import type { BrowseSort } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "조사 찾기",
-  description: "국가데이터처 승인통계 조사를 분야별로 살펴보고 정렬해 찾아보세요.",
+  title: "통계 찾기",
+  description: "국가데이터처 승인통계를 분야별로 살펴보고 정렬해 찾아보세요.",
 };
 
 export const revalidate = 300;
@@ -55,12 +55,12 @@ export default async function BrowsePage({ searchParams }: { searchParams: Searc
   return (
     <>
       <PageHeader
-        eyebrow="조사 찾기"
-        title={currentMeta ? `${currentMeta.label} 분야 조사` : "전체 승인통계 조사"}
+        eyebrow="통계 찾기"
+        title={currentMeta ? `${currentMeta.label} 분야 통계` : "전체 승인통계"}
         description={
           currentMeta
-            ? currentMeta.description || `${currentMeta.label} 분야에 속한 승인통계 조사 목록입니다.`
-            : "국가데이터처와 각 기관이 작성하는 승인통계 조사를 분야별로 찾아볼 수 있습니다. 조사를 선택하면 작성 목적, 법적 근거, KOSIS 통계표 목록을 확인할 수 있습니다."
+            ? currentMeta.description || `${currentMeta.label} 분야에 속한 승인통계 목록입니다.`
+            : "국가데이터처와 각 기관이 작성하는 승인통계를 분야별로 찾아볼 수 있습니다. 통계를 선택하면 작성 목적, 법적 근거, KOSIS 통계표 목록을 확인할 수 있습니다."
         }
       />
 
@@ -89,10 +89,10 @@ export default async function BrowsePage({ searchParams }: { searchParams: Searc
         <div className="mb-5 flex flex-col gap-3 border-b border-border pb-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-muted-foreground" role="status">
             {result.error !== null ? (
-              "조사 목록"
+              "통계 목록"
             ) : (
               <>
-                총 <strong className="text-foreground">{result.data.total.toLocaleString("ko-KR")}</strong>개 조사
+                총 <strong className="text-foreground">{result.data.total.toLocaleString("ko-KR")}</strong>개 통계
                 {result.data.totalPages > 1 && (
                   <>
                     {" "}
@@ -124,9 +124,9 @@ export default async function BrowsePage({ searchParams }: { searchParams: Searc
         ) : result.data.items.length === 0 ? (
           <EmptyState
             icon={LayoutGrid}
-            title="해당하는 조사가 없습니다"
+            title="해당하는 통계가 없습니다"
             description={category ? "다른 분야를 선택하거나 전체 목록에서 찾아보세요." : "통계 데이터가 적재되면 이곳에 표시됩니다."}
-            action={category ? { href: "/browse", label: "전체 조사 보기" } : undefined}
+            action={category ? { href: "/browse", label: "전체 통계 보기" } : undefined}
           />
         ) : (
           <>

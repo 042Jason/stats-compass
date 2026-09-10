@@ -9,22 +9,22 @@ import { AiBriefing } from "./ai-briefing";
 
 /** 관계 id → 사람이 읽는 말. 근거 경로를 문장으로 보여 주기 위한 표입니다. */
 const VIA_LABEL: Record<string, string> = {
-  answeredBy: "이 질문에 답할 수 있는 조사라서",
-  measuredBy: "이 지표를 산출하는 조사라서",
-  definesConcept: "이 용어를 정의하는 조사라서",
+  answeredBy: "이 질문에 답할 수 있는 통계라서",
+  measuredBy: "이 지표를 산출하는 통계라서",
+  definesConcept: "이 용어를 정의하는 통계라서",
   usesIndicator: "이 지표를 쓰는 질문이라서",
-  hasDistribution: "이 통계표를 제공하는 조사라서",
-  sharesConceptWith: "같은 개념을 쓰는 조사라서",
-  oftenConfusedWith: "함께 놓고 봐야 하는 조사라서",
-  complements: "같은 묶음으로 큐레이션된 조사라서",
-  relatedTo: "주제어가 겹치는 조사라서",
-  hasKeyword: "이 주제어가 붙은 조사라서",
+  hasDistribution: "이 통계표를 제공하는 통계라서",
+  sharesConceptWith: "같은 개념을 쓰는 통계라서",
+  oftenConfusedWith: "함께 놓고 봐야 하는 통계라서",
+  complements: "같은 묶음으로 큐레이션된 통계라서",
+  relatedTo: "주제어가 겹치는 통계라서",
+  hasKeyword: "이 주제어가 붙은 통계라서",
   hasTheme: "이 주제분야에 속해서",
-  coversLifeStage: "이 생애단계를 다루는 조사라서",
+  coversLifeStage: "이 생애단계를 다루는 통계라서",
 };
 
 const CLASS_LABEL: Record<string, string> = {
-  Survey: "조사",
+  Survey: "통계",
   Concept: "용어",
   Indicator: "지표",
   ResearchQuestion: "연구질문",
@@ -88,10 +88,10 @@ export function RagResults({
       {/* 추천 조사 */}
       <section aria-labelledby="surveys">
         <h2 id="surveys" className="text-lg font-bold">
-          참고할 통계조사
+          참고할 통계
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          검색으로 찾은 노드에서 관계를 타고 도달한 조사입니다. 왜 나왔는지 경로를 함께 보여 줍니다.
+          검색으로 찾은 노드에서 관계를 타고 도달한 통계입니다. 왜 나왔는지 경로를 함께 보여 줍니다.
         </p>
         <ul className="mt-4 space-y-4">
           {result.surveys.map((s) => (

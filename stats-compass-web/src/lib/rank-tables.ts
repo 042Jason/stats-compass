@@ -29,8 +29,8 @@ const SYSTEM = `당신은 통계 사서입니다. 이용자의 질문을 읽고,
 - 목록에 있는 번호만 씁니다. 새 표를 지어내지 마세요.
 - 모든 번호를 빠짐없이 정확히 한 번씩 씁니다. 빼고 싶은 표는 뒤로 미세요.
 - 질문의 <초점>을 봅니다. "집을 사려면 빚을 얼마나" 의 초점은 주택이 아니라 대출·부채입니다.
-- 그 다음 기준은 이 순서입니다: 질문의 인구집단(나이·성별·지역)을 실제로 나눠 주는가 → 최신 시점인가 → 조사가 서로 겹치지 않는가.
-- 같은 조사의 표만 앞에 몰지 마세요. 상위 5개 안에는 조사가 최소 두 개는 섞이는 편이 좋습니다.
+- 그 다음 기준은 이 순서입니다: 질문의 인구집단(나이·성별·지역)을 실제로 나눠 주는가 → 최신 시점인가 → 통계가 서로 겹치지 않는가.
+- 같은 통계의 표만 앞에 몰지 마세요. 상위 5개 안에는 통계가 최소 두 개는 섞이는 편이 좋습니다.
 
 reason 은 그 표를 그 자리에 둔 이유를 15자 안팎으로 적습니다. 상위 4개까지만 적고 나머지는 비웁니다.
 
@@ -82,7 +82,7 @@ function buildContext(question: string, tables: RagTable[]): string {
   tables.forEach((t, i) => {
     const span = [t.firstPeriod, t.latestPeriod].filter(Boolean).join("~");
     const bits = [
-      t.survey ? `조사: ${t.survey}` : null,
+      t.survey ? `통계: ${t.survey}` : null,
       span ? `수록: ${span}` : null,
       t.directHit ? "질문에 직접 걸린 표" : null,
     ].filter(Boolean);

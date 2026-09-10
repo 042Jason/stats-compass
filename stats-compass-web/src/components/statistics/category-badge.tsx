@@ -28,7 +28,7 @@ export function CategoryBadge({ category, linked = false, size = "sm", className
   );
   if (linked && category) {
     return (
-      <Link href={`/browse?category=${encodeURIComponent(category)}`} className={cls} aria-label={`${meta.label} 분야 조사 보기`}>
+      <Link href={`/browse?category=${encodeURIComponent(category)}`} className={cls} aria-label={`${meta.label} 분야 통계 보기`}>
         {content}
       </Link>
     );

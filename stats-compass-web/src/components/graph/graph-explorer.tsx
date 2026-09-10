@@ -50,15 +50,15 @@ interface Preset {
 const PRESETS: Preset[] = [
   {
     id: "surveys",
-    label: "조사 관계망",
-    hint: "조사끼리 어떻게 이어지는지만 봅니다",
+    label: "통계 관계망",
+    hint: "통계끼리 어떻게 이어지는지만 봅니다",
     classes: ["Survey"],
     properties: ["oftenConfusedWith", "sharesConceptWith", "relatedTo", "complements", "supersedes"],
   },
   {
     id: "concepts",
     label: "개념 지도",
-    hint: "용어를 가운데 두고 조사를 이어 봅니다",
+    hint: "용어를 가운데 두고 통계를 이어 봅니다",
     classes: ["Survey", "Concept"],
     properties: ["definesConcept", "broaderConcept", "relatedConcept"],
   },
@@ -72,7 +72,7 @@ const PRESETS: Preset[] = [
   {
     id: "confusion",
     label: "헷갈리는 통계",
-    hint: "서로 다르니 섞으면 안 되는 조사쌍",
+    hint: "서로 다르니 섞으면 안 되는 통계쌍",
     classes: ["Survey"],
     properties: ["oftenConfusedWith"],
   },
@@ -482,8 +482,8 @@ export function GraphExplorer({ snapshot }: { snapshot: OntologySnapshot }) {
             <div className="space-y-3 text-sm text-muted-foreground">
               <p className="font-medium text-foreground">노드를 클릭해 보세요</p>
               <p>
-                조사·개념·기관이 어떻게 이어지는지 보여 줍니다. 빨간 선은 &ldquo;서로 다르니 섞어
-                쓰면 안 되는&rdquo; 조사쌍입니다.
+                통계·개념·기관이 어떻게 이어지는지 보여 줍니다. 빨간 선은 &ldquo;서로 다르니 섞어
+                쓰면 안 되는&rdquo; 통계쌍입니다.
               </p>
               <p>휠로 확대·축소하고, 빈 곳을 끌어 이동합니다.</p>
             </div>
@@ -514,7 +514,7 @@ export function GraphExplorer({ snapshot }: { snapshot: OntologySnapshot }) {
                   href={`/statistics/${encodeURIComponent(selected.statId)}`}
                   className="inline-block rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
                 >
-                  조사 상세 보기
+                  통계 상세 보기
                 </Link>
               )}
 

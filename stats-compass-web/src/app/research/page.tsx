@@ -37,7 +37,7 @@ export default async function ResearchPage({ searchParams }: Props) {
       <PageHeader
         eyebrow="생애나침반"
         title="질문으로 통계 찾기"
-        description="조사 이름을 몰라도 됩니다. 알고 싶은 것을 그대로 물어보면, 온톨로지를 타고 참고할 조사와 통계표를 찾아 왜 그것인지까지 보여 줍니다."
+        description="통계 이름을 몰라도 됩니다. 알고 싶은 것을 그대로 물어보면, 온톨로지를 타고 참고할 통계와 통계표를 찾아 왜 그것인지까지 보여 줍니다."
       />
       <div className="container-page space-y-10 py-10">
         <Suspense fallback={<div className="h-32" />}>

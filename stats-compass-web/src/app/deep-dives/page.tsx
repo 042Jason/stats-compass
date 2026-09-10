@@ -10,7 +10,7 @@ import { getPublishedArticles } from "@/lib/queries/articles";
 
 export const metadata: Metadata = {
   title: "Deep Dive",
-  description: "승인통계 한 편을 깊이 들여다보는 심층 소개 아티클입니다.",
+  description: "승인통계 한 편을 깊이 들여다보는 심층소개 분석입니다.",
 };
 
 export const revalidate = 300;
@@ -22,8 +22,8 @@ export default async function DeepDivesPage() {
     <>
       <PageHeader
         eyebrow="Deep Dive"
-        title="심층 소개 아티클"
-        description="한 조사를 골라 왜 만들어졌는지, 어떻게 조사하는지, 숫자를 읽을 때 무엇을 조심해야 하는지 차근차근 설명합니다. 밖에 따로 배포된 통계 대시보드도 함께 모았습니다."
+        title="심층소개 분석"
+        description="한 통계를 골라 왜 만들어졌는지, 어떻게 조사하는지, 숫자를 읽을 때 무엇을 조심해야 하는지 차근차근 설명합니다. 밖에 따로 배포된 통계 대시보드도 함께 모았습니다."
       />
       <div className="container-page py-10">
         {res.error !== null && <ErrorState detail={res.error} />}
@@ -69,10 +69,10 @@ export default async function DeepDivesPage() {
 
         {res.error === null && res.data.length === 0 && (
           <p className="mt-6 rounded-xl border border-dashed border-border px-5 py-4 text-sm text-muted-foreground">
-            직접 쓴 Deep Dive 아티클은 편집 중입니다. 공개되면 홈과 각 조사 상세 페이지에서도
+            직접 쓴 Deep Dive 분석은 편집 중입니다. 공개되면 홈과 각 통계 상세 페이지에서도
             안내해 드리겠습니다.{" "}
             <Link href="/browse" className="font-semibold text-primary hover:underline">
-              조사 둘러보기
+              통계 둘러보기
             </Link>
           </p>
         )}

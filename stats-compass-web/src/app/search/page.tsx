@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "검색",
-  description: "조사명, 통계표명, 작성기관으로 승인통계를 검색합니다.",
+  description: "통계명, 통계표명, 작성기관으로 승인통계를 검색합니다.",
   robots: { index: false },
 };
 
@@ -25,7 +25,7 @@ type Kind = "all" | "statistic" | "table";
 
 const KIND_TABS: { value: Kind; label: string }[] = [
   { value: "all", label: "전체" },
-  { value: "statistic", label: "조사" },
+  { value: "statistic", label: "통계" },
   { value: "table", label: "통계표" },
 ];
 
@@ -54,7 +54,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Searc
           <p className="mt-4 text-sm text-muted-foreground" role="status" aria-live="polite">
             &lsquo;<strong className="text-foreground">{q}</strong>&rsquo; 검색 결과{" "}
             <strong className="text-foreground">{result.hits.length.toLocaleString("ko-KR")}</strong>건
-            <span className="ml-2 text-xs">(조사 {statHits.length} · 통계표 {tableHits.length})</span>
+            <span className="ml-2 text-xs">(통계 {statHits.length} · 통계표 {tableHits.length})</span>
           </p>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Searc
           <EmptyState
             icon={SearchX}
             title="검색 결과가 없습니다"
-            description="다른 검색어로 시도하거나, 띄어쓰기를 바꾸거나 더 짧은 단어로 검색해 보세요. 분야별 찾기에서 조사를 둘러볼 수도 있습니다."
+            description="다른 검색어로 시도하거나, 띄어쓰기를 바꾸거나 더 짧은 단어로 검색해 보세요. 분야별 찾기에서 통계를 둘러볼 수도 있습니다."
             action={{ href: "/browse", label: "분야별로 찾기" }}
           />
         ) : (
@@ -129,7 +129,7 @@ function SearchResultCard({ hit, query }: { hit: SearchHit; query: string }) {
       </span>
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className={cn("font-semibold", isStat ? "text-primary" : "text-muted-foreground")}>{isStat ? "조사" : "통계표"}</span>
+          <span className={cn("font-semibold", isStat ? "text-primary" : "text-muted-foreground")}>{isStat ? "통계" : "통계표"}</span>
           {hit.category && <CategoryBadge category={hit.category} />}
         </div>
         <h3 className="mt-1.5 text-base font-semibold leading-snug">
@@ -143,7 +143,7 @@ function SearchResultCard({ hit, query }: { hit: SearchHit; query: string }) {
         </h3>
         {hit.subtitle && (
           <p className="mt-1 text-sm text-muted-foreground">
-            {isStat ? "작성기관: " : "소속 조사: "}
+            {isStat ? "작성기관: " : "소속 통계: "}
             <Highlight text={hit.subtitle} query={query} />
           </p>
         )}
@@ -174,7 +174,7 @@ async function SearchLanding() {
         </span>
         <h1 className="text-2xl font-bold tracking-tight md:text-3xl">무엇을 찾고 계신가요?</h1>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">
-          조사명, 통계표명, 작성기관, 태그로 승인통계를 검색합니다. 조사 마스터와 KOSIS 통계표를 함께 찾아드립니다.
+          통계명, 통계표명, 작성기관, 태그로 승인통계를 검색합니다. 통계 마스터와 KOSIS 통계표를 함께 찾아드립니다.
         </p>
         <div className="mt-6">
           <SearchBox autoFocus />

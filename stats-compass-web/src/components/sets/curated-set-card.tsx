@@ -39,7 +39,7 @@ export function CuratedSetCard({ set, itemCount, className, featured }: CuratedS
       {desc && <p className="text-sm leading-6 text-muted-foreground">{desc}</p>}
       <div className="mt-auto flex items-center justify-between pt-1 text-xs text-muted-foreground">
         <span>
-          {typeof itemCount === "number" && <>{itemCount}개 조사</>}
+          {typeof itemCount === "number" && <>{itemCount}개 통계</>}
           {typeof itemCount === "number" && date && " · "}
           {date && <time dateTime={date}>{formatDate(date, "short")}</time>}
         </span>

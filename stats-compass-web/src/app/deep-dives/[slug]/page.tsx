@@ -95,13 +95,13 @@ export default async function DeepDivePage({ params }: { params: Params }) {
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
           </div>
         ) : (
-          <EmptyState title="본문을 준비하고 있습니다" description="이 아티클의 본문은 아직 작성 중입니다." />
+          <EmptyState title="본문을 준비하고 있습니다" description="이 분석의 본문은 아직 작성 중입니다." />
         )}
 
         {statistic && (
           <section className="mt-12 border-t border-border pt-8" aria-labelledby="linked-stat">
             <h2 id="linked-stat" className="mb-4 text-lg font-bold">
-              이 아티클이 다루는 조사
+              이 분석이 다루는 통계
             </h2>
             <StatisticCard statistic={statistic} />
           </section>
@@ -109,10 +109,10 @@ export default async function DeepDivePage({ params }: { params: Params }) {
 
         <div className="mt-12 flex justify-between border-t border-border pt-6 text-sm">
           <Link href="/deep-dives" className="inline-flex items-center gap-1 text-primary hover:underline">
-            아티클 목록으로
+            분석 목록으로
           </Link>
           <Link href="/browse" className="inline-flex items-center gap-1 text-primary hover:underline">
-            조사 찾기 <ArrowRight className="size-4" aria-hidden />
+            통계 찾기 <ArrowRight className="size-4" aria-hidden />
           </Link>
         </div>
       </div>

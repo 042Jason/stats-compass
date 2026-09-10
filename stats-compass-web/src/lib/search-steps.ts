@@ -18,9 +18,9 @@ export interface SearchStep {
 export const SEARCH_STEPS: readonly SearchStep[] = [
   { title: "질문 조각", caption: "질문에서 나이·지역·성별을 떼어냅니다" },
   { title: "걸린 노드", caption: "별칭과 본문으로 가까운 노드를 찾습니다 (어휘 + 벡터)" },
-  { title: "조사", caption: "온톨로지 관계를 타고 조사에 도달합니다" },
-  { title: "통계용어", caption: "조사들이 공유하는 통계용어가 서로를 잇습니다" },
-  { title: "통계표", caption: "조사마다 대표표를 골라 KOSIS 로 넘길 ID를 확정합니다" },
+  { title: "통계", caption: "온톨로지 관계를 타고 통계에 도달합니다" },
+  { title: "통계용어", caption: "통계들이 공유하는 통계용어가 서로를 잇습니다" },
+  { title: "통계표", caption: "통계마다 대표표를 골라 KOSIS 로 넘길 ID를 확정합니다" },
 ];
 
 /** 한 단계가 켜지는 간격 */

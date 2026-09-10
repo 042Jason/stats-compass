@@ -172,7 +172,7 @@ export function GraphView({ result, slots }: { result: RagResult; slots: Resolve
       label: d.label,
       sub: d.confusedWith ? `혼동쌍 · ${d.confusedWith}` : `관련도 ${d.score.toFixed(3)}`,
       tip: d.confusedWith
-        ? `점수에서 밀렸습니다. ${d.confusedWith} 와 혼동쌍으로 등록된 조사입니다.`
+        ? `점수에서 밀렸습니다. ${d.confusedWith} 와 혼동쌍으로 등록된 통계입니다.`
         : "후보까지 갔지만 점수에서 밀렸습니다.",
       tone: "faded",
     });
@@ -186,7 +186,7 @@ export function GraphView({ result, slots }: { result: RagResult; slots: Resolve
       col: 3,
       row: i,
       label: c.label,
-      sub: c.surveys.length > 1 ? `${c.surveys.length}개 조사 공유` : undefined,
+      sub: c.surveys.length > 1 ? `${c.surveys.length}개 통계 공유` : undefined,
       tip: c.definition ?? undefined,
       tone: "concept",
     });
@@ -238,7 +238,7 @@ export function GraphView({ result, slots }: { result: RagResult; slots: Resolve
       </h2>
       <p className="mt-1 text-sm text-muted-foreground">
         온톨로지 전체가 아니라 이 질문 하나로 <strong>실제로 켜진 노드</strong>만 그렸습니다.
-        흐린 것은 후보까지 갔다가 밀린 조사입니다.
+        흐린 것은 후보까지 갔다가 밀린 통계입니다.
       </p>
 
       {/* 진행 표시 + 다시 재생 */}
@@ -275,14 +275,14 @@ export function GraphView({ result, slots }: { result: RagResult; slots: Resolve
       <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
         <span>
           <span className="mr-1 inline-block h-2 w-4 align-middle" style={{ background: "var(--primary)" }} />
-          채택된 조사
+          채택된 통계
         </span>
         <span>
           <span
             className="mr-1 inline-block h-2 w-4 border align-middle"
             style={{ borderColor: "var(--input)", borderStyle: "dashed" }}
           />
-          밀린 조사
+          밀린 통계
         </span>
         <span>
           <span className="mr-1 inline-block h-2 w-4 align-middle" style={{ background: "#be185d" }} />
